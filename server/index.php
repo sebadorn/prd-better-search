@@ -21,7 +21,7 @@ $results = get_search_results();
 <form class="search" method="GET" action="index.php">
 	<div class="line">
 		<input name="s" placeholder="Suche …" />
-		<button type="submit">&rarr;</button>
+		<button type="submit">&gt;</button>
 	</div>
 </form>
 
@@ -29,15 +29,15 @@ $results = get_search_results();
 <?php
 
 foreach( $results["title_perfect"] as $i => $item ) {
-	echo ui_build_listitem( $i, $item );
+	echo ui_build_listitem( "title-perfect", $i, $item );
 }
 
 foreach( $results["title_contains"] as $i => $item ) {
-	echo ui_build_listitem( $i, $item );
+	echo ui_build_listitem( "title-contains", $i, $item );
 }
 
 foreach( $results["desc"] as $i => $item ) {
-	echo ui_build_listitem( $i, $item );
+	echo ui_build_listitem( "desc-contains", $i, $item );
 }
 
 ?>

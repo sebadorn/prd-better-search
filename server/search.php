@@ -14,7 +14,7 @@ $search = NULL;
 
 
 if( isset( $_GET["s"] ) ) {
-	$search = strtolower( $_GET["s"] );
+	$search = strtolower( trim( $_GET["s"] ) );
 
 	foreach( $data as $key => $value ) {
 		$path = "index-data/" . $key . ".json";
@@ -67,6 +67,7 @@ function get_search_results() {
 		}
 
 		foreach( $contents as $i => $item ) {
+			$item->source = $key;
 			$name = strtolower( $item->name );
 
 			if( strcmp( $name, $search ) === 0 ) {
