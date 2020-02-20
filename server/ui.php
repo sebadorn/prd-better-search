@@ -4,15 +4,17 @@ function ui_build_listitem( $class, $i, $item ) {
 	$link = "http://prd.5footstep.de/Permalink?page_id=" . $item->id;
 
 	$out = '<li class="result ' . $class . ' ' . $item->source . '">';
+	$out .= '<header>';
 	$out .= '<a class="name" href="' . $link . '">' . $item->name . '</a>';
 	$out .= ui_text_source( $item );
-
-	if( $item->desc ) {
-		$out .= '<span class="desc">' . $item->desc . '</span>';
-	}
+	$out .= '</header>';
 
 	if( $item->book ) {
-		$out .= '<span class="book">' . $item->book . '</span>';
+		$out .= '<div class="book">' . $item->book . '</div>';
+	}
+
+	if( $item->desc ) {
+		$out .= '<div class="desc">' . $item->desc . '</div>';
 	}
 
 	return $out . '</li>';

@@ -173,6 +173,7 @@ const ruleDuplicates = [
 queue.forEach( a => {
 	const content = getFileJSON( a.file );
 	const data = [];
+	const ids = [];
 
 	content.data.forEach( entry => {
 		const item = getBaseData( entry );
@@ -188,6 +189,11 @@ queue.forEach( a => {
 			}
 		}
 
+		if( ids.includes( item.id ) ) {
+			return;
+		}
+
+		ids.push( item.id );
 		data.push( item );
 	} );
 
