@@ -4,6 +4,7 @@ include( 'ui.php' );
 include( 'search.php' );
 
 $results = get_search_results();
+$term = get_search_term();
 
 ?>
 <!DOCTYPE html>
@@ -14,15 +15,15 @@ $results = get_search_results();
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>PRD-Suche</title>
 	<link rel="stylesheet" href="screen.css">
-	<script src="search.js"></script>
 </head>
 <body>
 
 <form class="search" method="GET" action="index.php">
 	<div class="line">
-		<input name="s" placeholder="Suche …" />
+		<input name="s" placeholder="Suche …" value="<?php echo htmlspecialchars( $_GET["s"] ) ?>" />
 		<button type="submit">&gt;</button>
 	</div>
+	<select name="f"><?php echo ui_build_filter_list() ?></select>
 </form>
 
 <ol class="results">
@@ -38,6 +39,10 @@ foreach( $results["title_contains"] as $i => $item ) {
 
 foreach( $results["desc"] as $i => $item ) {
 	echo ui_build_listitem( "desc-contains", $i, $item );
+}
+
+foreach( $results["keywords"] as $i => $item ) {
+	echo ui_build_listitem( "keywords-contain", $i, $item );
 }
 
 ?>

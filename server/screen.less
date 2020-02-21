@@ -52,6 +52,11 @@ textarea {
 	padding: 10px;
 }
 
+select {
+	font-family: "Open Sans", sans-serif;
+	font-size: 16px;
+}
+
 form.search {
 	width: 100%;
 
@@ -74,14 +79,21 @@ form.search {
 			font-family: monospace;
 			font-size: 15px;
 			font-weight: bold;
+			margin-left: -1px;
 			width: 43px;
 		}
+	}
+
+	select {
+		margin-top: 5px;
+		padding: 5px;
+		width: 100%;
 	}
 }
 
 .results {
 	list-style: none;
-	margin-top: 20px;
+	margin-top: 15px;
 }
 
 .result {
@@ -139,12 +151,21 @@ form.search {
 		opacity: 0.7;
 	}
 
-	.book {
+	.book,
+	.category,
+	.req,
+	.school,
+	.slot,
+	.type {
 		border-bottom: 1px solid #505050;
 		color: #A0A0A0;
 		font-size: 14px;
 		margin: 0 -10px;
-		padding: 5px 10px;
+		padding: 2px 10px;
+
+		span {
+			font-weight: 600;
+		}
 	}
 
 	.desc {
