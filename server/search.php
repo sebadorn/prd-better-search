@@ -1,27 +1,28 @@
 <?php
 
-define( "NUM_MAX_RESULTS", 500 );
-define( "TERM_MIN_LENGTH", 2 );
-define( "TERM_MAX_LENGTH", 1000 );
+define( 'NUM_MAX_RESULTS', 600 );
+define( 'TERM_MIN_LENGTH', 2 );
+define( 'TERM_MAX_LENGTH', 1000 );
+
+include( 'search-check.php' );
 
 $data = [
-	"magic-items" => NULL,
-	"magic" => NULL,
-	"monsters" => NULL,
-	"rules" => NULL,
-	"talents" => NULL,
-	"traits" => NULL,
-	"words-of-power" => NULL,
+	'magic-items' => NULL,
+	'magic' => NULL,
+	'monsters' => NULL,
+	'rules' => NULL,
+	'talents' => NULL,
+	'traits' => NULL,
+	'words-of-power' => NULL,
 ];
 
 $search = get_search_term();
-$filter = get_search_filter();
 
 
 if( $search ) {
 	foreach( $data as $key => $value ) {
-		$path = "index-data/" . $key . ".json";
-		$handle = fopen( $path, "r" );
+		$path = "index-data/{$key}.json";
+		$handle = fopen( $path, 'r' );
 		$content = fread( $handle, filesize( $path ) );
 		fclose( $handle );
 
@@ -30,12 +31,18 @@ if( $search ) {
 }
 
 
+/**
+ *
+ * @param  object $a
+ * @param  object $b
+ * @return number
+ */
 function result_cmp( $a, $b ) {
 	if( $a->book !== $b->book ) {
-		if( $a->book === "Grundregelwerk" ) {
+		if( $a->book === 'Grundregelwerk' ) {
 			return -1;
 		}
-		else if( $b->book === "Grundregelwerk" ) {
+		else if( $b->book === 'Grundregelwerk' ) {
 			return 1;
 		}
 	}
@@ -51,13 +58,37 @@ function result_cmp( $a, $b ) {
 }
 
 
+/**
+ *
+ * @return string|null
+ */
+function get_search_book() {
+	$book = NULL;
+
+	if( isset( $_GET['b'] ) ) {
+		$book = $_GET['b'];
+		$books = get_books();
+
+		if( !in_array( $book, $books ) ) {
+			$book = NULL;
+		}
+	}
+
+	return $book;
+}
+
+
+/**
+ *
+ * @return string|null
+ */
 function get_search_filter() {
 	$filter = NULL;
 
-	if( isset( $_GET["f"] ) ) {
-		$filter = $_GET["f"];
+	if( isset( $_GET['f'] ) ) {
+		$filter = $_GET['f'];
 
-		if( get_translation( $filter ) === "" ) {
+		if( get_translation( $filter ) === '' ) {
 			$filter = NULL;
 		}
 	}
@@ -66,28 +97,36 @@ function get_search_filter() {
 }
 
 
+/**
+ *
+ * @return array
+ */
 function get_search_results() {
-	global $data, $filter, $search;
+	global $data, $search;
 
 	$results = [
-		"title_perfect" => [],
-		"title_contains" => [],
-		"desc" => [],
-		"keywords" => []
+		'title_perfect' => [],
+		'title_contains' => [],
+		'desc' => [],
+		'keywords' => []
 	];
 
 	if( is_null( $search ) ) {
 		return $results;
 	}
 
+	$filter = get_search_filter();
+	$filter_book = get_search_book();
+	$mod = get_search_mod( $search );
+
 	$num_results = 0;
 
-	foreach( $data as $key => $contents ) {
+	foreach( $data as $source => $contents ) {
 		if( is_null( $contents ) ) {
 			continue;
 		}
 
-		if( !is_null( $filter ) && $filter !== $key ) {
+		if( $filter && $filter !== $source ) {
 			continue;
 		}
 
@@ -96,31 +135,12 @@ function get_search_results() {
 		}
 
 		foreach( $contents as $i => $item ) {
-			$item->source = $key;
-			$name = strtolower( $item->name );
+			if( $filter_book && $item->book !== $filter_book ) {
+				continue;
+			}
 
-			if( strcmp( $name, $search ) === 0 ) {
-				array_push( $results["title_perfect"], $item );
-				$num_results++;
-			}
-			else if( strpos( $name, $search ) !== FALSE ) {
-				array_push( $results["title_contains"], $item );
-				$num_results++;
-			}
-			else if( $item->desc && stripos( $item->desc, $search ) !== FALSE ) {
-				array_push( $results["desc"], $item );
-				$num_results++;
-			}
-			else if( is_array( $item->keywords ) ) {
-				foreach( $item->keywords as $j => $keyword ) {
-					if( stripos( $keyword, $search ) !== FALSE ) {
-						array_push( $results["keywords"], $item );
-						$num_results++;
-
-						break;
-					}
-				}
-			}
+			$item->source = $source;
+			$num_results += check_add_item( $search, $mod, $item, $results );
 
 			if( $num_results >= NUM_MAX_RESULTS ) {
 				break;
@@ -128,24 +148,28 @@ function get_search_results() {
 		}
 	}
 
-	usort( $results["title_perfect"], "result_cmp" );
-	usort( $results["title_contains"], "result_cmp" );
-	usort( $results["desc"], "result_cmp" );
-	usort( $results["keywords"], "result_cmp" );
+	usort( $results['title_perfect'], 'result_cmp' );
+	usort( $results['title_contains'], 'result_cmp' );
+	usort( $results['desc'], 'result_cmp' );
+	usort( $results['keywords'], 'result_cmp' );
 
 	return $results;
 }
 
 
+/**
+ *
+ * @return string|null
+ */
 function get_search_term() {
-	$search = NULL;
+	$search = null;
 
-	if( isset( $_GET["s"] ) ) {
-		$search = strtolower( trim( $_GET["s"] ) );
+	if( isset( $_GET['s'] ) ) {
+		$search = strtolower( trim( $_GET['s'] ) );
 		$len = strlen( $search );
 
 		if( $len < TERM_MIN_LENGTH || $len > TERM_MAX_LENGTH ) {
-			$search = NULL;
+			$search = null;
 		}
 	}
 

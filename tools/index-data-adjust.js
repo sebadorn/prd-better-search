@@ -5,9 +5,13 @@ const path = require( 'path' );
 
 const DATA_PATH = path.join( __dirname, '..', 'index-data' );
 const regexNameLink = /.+['"]>(.+)<\/a>$/;
+const regexDescClean = /^(&lt;sup&gt;|\^\^)[A-Z]+(&lt;\/sup&gt;||\^\^)/;
+const regexReqClean = /\^\^[A-Z0-9 ]+\^\^/g;
+const regexReqGAB = /Grund(-A|a)ngriffsbonus/;
+const regexReqBracket = /\( /g;
 
 
-const getFileJSON = ( file ) => {
+const getFileJSON = file => {
 	const filePath = path.join( DATA_PATH, 'export', file );
 	const json = fs.readFileSync( filePath );
 
@@ -33,6 +37,8 @@ const getBaseData = entry => {
 
 	if( entry.Beschreibung ) {
 		item.desc = entry.Beschreibung;
+		item.desc = item.desc.replace( regexDescClean, '' );
+		item.desc = item.desc.trim();
 	}
 
 	if( entry.Regelwerk ) {
@@ -45,7 +51,7 @@ const getBaseData = entry => {
 
 const addMagicData = ( item, entry ) => {
 	if( entry.Kategorie ) {
-		let list = String( entry.Kategorie ).split( ',' );
+		const list = String( entry.Kategorie ).split( ',' );
 		item.category = list.map( c => c.trim() );
 	}
 
@@ -54,7 +60,7 @@ const addMagicData = ( item, entry ) => {
 	}
 
 	if( entry.Unterschule ) {
-		let list = String( entry.Unterschule ).split( ',' );
+		const list = String( entry.Unterschule ).split( ',' );
 		item.school_sub = list.map( s => s.trim() );
 	}
 };
@@ -66,7 +72,7 @@ const addMagicItemData = ( item, entry ) => {
 	}
 
 	if( typeof entry.Platz === 'string' && entry.Platz ) {
-		let list = entry.Platz.split( ',' );
+		const list = entry.Platz.split( ',' );
 
 		item.slot = list.map( s => {
 			s = s.trim();
@@ -87,7 +93,7 @@ const addMonsterData = ( item, entry ) => {
 	}
 
 	if( entry.Unterart ) {
-		let list = String( entry.Unterart ).split( ',' );
+		const list = String( entry.Unterart ).split( ',' );
 		item.type_sub = list.map( t => t.trim() );
 	}
 
@@ -105,12 +111,12 @@ const addMonsterData = ( item, entry ) => {
 
 const addRuleData = ( item, entry ) => {
 	if( entry.Kategorie ) {
-		let list = String( entry.Kategorie ).split( ',' );
+		const list = String( entry.Kategorie ).split( ',' );
 		item.category = list.map( c => c.trim() );
 	}
 
 	if( entry.Schlusselworte ) {
-		let list = String( entry.Schlusselworte ).split( ',' );
+		const list = String( entry.Schlusselworte ).split( ',' );
 		item.keywords = list.map( k => k.trim() );
 	}
 };
@@ -122,8 +128,21 @@ const addTalentData = ( item, entry ) => {
 	}
 
 	if( entry.Voraussetzung ) {
-		let list = String( entry.Voraussetzung ).split( ',' );
-		item.requirements = list.map( r => r.trim() );
+		const list = String( entry.Voraussetzung ).split( ',' );
+
+		item.requirements = list.map( r => {
+			r = r.replace( regexReqClean, '' );
+			r = r.replace( regexReqGAB, 'GAB' );
+			r = r.replace( 'Zauberstufe ', 'ZS ' );
+			r = r.replace( regexReqBracket, '(' );
+			r = r.trim();
+
+			if( r.endsWith( '.' ) ) {
+				r = r.substr( 0, r.length - 1 );
+			}
+
+			return r;
+		} );
 	}
 };
 
@@ -137,7 +156,7 @@ const addTraitData = ( item, entry ) => {
 
 const addWOPData = ( item, entry ) => {
 	if( entry.Kategorie ) {
-		let list = String( entry.Kategorie ).split( ',' );
+		const list = String( entry.Kategorie ).split( ',' );
 		item.category = list.map( c => c.trim() );
 	}
 
@@ -146,7 +165,7 @@ const addWOPData = ( item, entry ) => {
 	}
 
 	if( entry.Unterschule ) {
-		let list = String( entry.Unterschule ).split( ',' );
+		const list = String( entry.Unterschule ).split( ',' );
 		item.school_sub = list.map( s => s.trim() );
 	}
 };
@@ -169,6 +188,8 @@ const ruleDuplicates = [
 	'Wesenszüge',
 	'Zauber'
 ];
+
+const books = [];
 
 queue.forEach( a => {
 	const content = getFileJSON( a.file );
@@ -193,9 +214,16 @@ queue.forEach( a => {
 			return;
 		}
 
+		if( item.book && !books.includes( item.book ) ) {
+			books.push( item.book );
+		}
+
 		ids.push( item.id );
 		data.push( item );
 	} );
 
 	writeFileJSON( a.file, data );
 } );
+
+books.sort();
+writeFileJSON( 'books.json', books );

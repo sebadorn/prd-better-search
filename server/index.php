@@ -24,25 +24,26 @@ $term = get_search_term();
 		<button type="submit">&gt;</button>
 	</div>
 	<select name="f"><?php echo ui_build_filter_list() ?></select>
+	<select name="b"><?php echo ui_build_book_list() ?></select>
 </form>
 
 <ol class="results">
 <?php
 
-foreach( $results["title_perfect"] as $i => $item ) {
-	echo ui_build_listitem( "title-perfect", $i, $item );
+foreach( $results['title_perfect'] as $i => $item ) {
+	echo ui_build_listitem( 'title-perfect', $i, $item );
 }
 
-foreach( $results["title_contains"] as $i => $item ) {
-	echo ui_build_listitem( "title-contains", $i, $item );
+foreach( $results['title_contains'] as $i => $item ) {
+	echo ui_build_listitem( 'title-contains', $i, $item );
 }
 
-foreach( $results["desc"] as $i => $item ) {
-	echo ui_build_listitem( "desc-contains", $i, $item );
+foreach( $results['desc'] as $i => $item ) {
+	echo ui_build_listitem( 'desc-contains', $i, $item );
 }
 
-foreach( $results["keywords"] as $i => $item ) {
-	echo ui_build_listitem( "keywords-contain", $i, $item );
+foreach( $results['keywords'] as $i => $item ) {
+	echo ui_build_listitem( 'keywords-contain', $i, $item );
 }
 
 ?>
