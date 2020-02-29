@@ -49,6 +49,11 @@ This will return all talents with a dexterity requirement of 13 or above. Other 
     REQ:zs> 7
     req: wil > 0
 
+To find all spells of a certain school or sub school, use `Schule:`. Examples:
+
+    Schule: Illusion
+    schule:zwang
+
 To show contents of a certain book, use `Buch:`. Examples:
 
     Buch:Grundregelwerk

@@ -42,6 +42,9 @@ function check_mod( $mod, $item, &$results ) {
 	else if( $mod[0] === 'REQ' ) {
 		$added += check_mod_req( $mod[1], $item, $results );
 	}
+	else if( $mod[0] === 'SCHULE' ) {
+		$added += check_mod_school( $mod[1], $item, $results );
+	}
 	else if( $mod[0] === 'TYP' ) {
 		$added += check_mod_type( $mod[1], $item, $results );
 	}
@@ -90,6 +93,52 @@ function check_mod_cr( $value, $item, &$results ) {
 	if( $item->cr && $item->cr === $value ) {
 		array_push( $results['title_perfect'], $item );
 		$added++;
+	}
+
+	return $added;
+}
+
+
+/**
+ *
+ * @param  string $value
+ * @param  object $item
+ * @param  array  &$results
+ * @return number
+ */
+function check_mod_school( $value, $item, &$results ) {
+	$added = 0;
+
+	if( $item->school ) {
+		$school = strtolower( $item->school );
+
+		if( strcmp( $school, $value ) === 0 ) {
+			array_push( $results['title_perfect'], $item );
+			$added++;
+		}
+		else if( strpos( $school, $value ) !== FALSE ) {
+			array_push( $results['title_contains'], $item );
+			$added++;
+		}
+	}
+
+	if( $added === 0 && is_array( $item->school_sub ) ) {
+		foreach( $item->school_sub as $i => $subschool ) {
+			$subschool = strtolower( $subschool );
+
+			if( strcmp( $subschool, $value ) === 0 ) {
+				array_push( $results['title_perfect'], $item );
+				$added++;
+
+				break;
+			}
+			else if( strpos( $subschool, $value ) !== FALSE ) {
+				array_push( $results['title_contains'], $item );
+				$added++;
+
+				break;
+			}
+		}
 	}
 
 	return $added;
