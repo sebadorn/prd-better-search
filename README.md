@@ -1,6 +1,8 @@
-# Better Search for PRD (German)
+# Better Search for the DPRD
 
-Search results still link to their respective PRD page.
+Search results still link to their respective [DPRD (German Pathfinder Reference Document)](http://prd.5footstep.de/) page.
+
+The data used for searches is downloaded from the DPRD. The contents are – to my understanding – [under the OGL (Open Game License)](http://prd.5footstep.de/FAQ/Deutsches-PRD-und-Nutzungsrechte).
 
 
 ## Improvements
@@ -61,6 +63,37 @@ To show contents of a certain book, use `Buch:`. Examples:
     buch:ausbauregeln
 
 
-## LESS
+## Setup
+
+Download the data with `./tools/index-data-download.sh`. This will download a bunch of JSON files to a directory called `./index-data/export/`.
+
+In the next step call `node ./tools/index-data-adjust.js` which will create new JSON files in `./index-data/`.
+
+If you made changes to `screen.less` recompile it with:
 
     lessc --clean-css server/screen.less > server/screen.css
+
+Then upload everything needed to your server. The final structure on the server should look like this:
+
+    index-data/
+      books.json
+      magic-items.json
+      magic.json
+      monsters.json
+      rules.json
+      talents.json
+      traits.json
+      words-of-power.json
+    index.php
+    screen.css
+    search-check.php
+    search.php
+    ui.php
+
+
+## Requirements
+
+* bash (or MinGW on Windows)
+* LESS
+* NodeJS >= 10
+* PHP >= 5.4
