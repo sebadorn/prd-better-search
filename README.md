@@ -65,7 +65,7 @@ To show contents of a certain book, use `Buch:`. Examples:
 
 ## Setup
 
-Download the data with `./tools/index-data-download.sh`. This will download a bunch of JSON files to a directory called `./index-data/export/`.
+Download the data with `./tools/index-data-download.sh`. This will download a bunch of JSON files to a directory called `./index-data/export/` and will total approximately 10 MB.
 
 In the next step call `node ./tools/index-data-adjust.js` which will create new JSON files in `./index-data/`.
 
@@ -73,7 +73,7 @@ If you made changes to `screen.less` recompile it with:
 
     lessc --clean-css server/screen.less > server/screen.css
 
-Then upload everything needed to your server. The final structure on the server should look like this:
+Then upload everything the application needs to your server. The final structure on the server should look like this:
 
     index-data/
       books.json
