@@ -4,6 +4,8 @@ Search results still link to their respective [DPRD (German Pathfinder Reference
 
 The data used for searches is downloaded from the DPRD. The contents are – to my understanding – [under the OGL (Open Game License)](http://prd.5footstep.de/FAQ/Deutsches-PRD-und-Nutzungsrechte).
 
+The translation suggestions (en -> de) are based on the data from http://www.pathfinder-ogl.de/wiki/Regelbegriff-Glossar.
+
 
 ## Improvements
 
@@ -11,6 +13,7 @@ The data used for searches is downloaded from the DPRD. The contents are – to 
 * Sorted results: Perfect matches are listed first, and entries from the "Grundregelwerk" are listed before those which are not.
 * Filter: Only search in certain categories like "talents", "monsters" etc.
 * Removed some duplicate entries.
+* Suggest translations for english search terms.
 
 
 ## Additional Syntax
@@ -84,6 +87,8 @@ Then upload everything the application needs to your server. The final structure
       talents.json
       traits.json
       words-of-power.json
+    translation-data/
+      translations.json
     index.php
     screen.css
     search-check.php

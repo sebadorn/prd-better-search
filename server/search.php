@@ -16,6 +16,8 @@ $data = [
 	'words-of-power' => NULL,
 ];
 
+$translations = NULL;
+
 $search = get_search_term();
 
 
@@ -27,6 +29,16 @@ if( $search ) {
 		fclose( $handle );
 
 		$data[$key] = json_decode( $content );
+	}
+
+	$path = 'translation-data/translations.json';
+
+	if( file_exists( $path ) ) {
+		$handle = fopen( $path, 'r' );
+		$content = fread( $handle, filesize( $path ) );
+		fclose( $handle );
+
+		$translations = json_decode( $content );
 	}
 }
 
@@ -60,7 +72,7 @@ function result_cmp( $a, $b ) {
 
 /**
  *
- * @return string|null
+ * @return string|NULL
  */
 function get_search_book() {
 	$book = NULL;
@@ -80,7 +92,7 @@ function get_search_book() {
 
 /**
  *
- * @return string|null
+ * @return string|NULL
  */
 function get_search_filter() {
 	$filter = NULL;
@@ -159,19 +171,63 @@ function get_search_results() {
 
 /**
  *
- * @return string|null
+ * @return string|NULL
  */
 function get_search_term() {
-	$search = null;
+	$search = NULL;
 
 	if( isset( $_GET['s'] ) ) {
 		$search = strtolower( trim( $_GET['s'] ) );
 		$len = strlen( $search );
 
 		if( $len < TERM_MIN_LENGTH || $len > TERM_MAX_LENGTH ) {
-			$search = null;
+			$search = NULL;
 		}
 	}
 
 	return $search;
+}
+
+
+/**
+ *
+ * @return array|NULL
+ */
+function get_translation_suggestions() {
+	global $search, $translations;
+
+	if( is_null( $translations ) || !is_string( $search ) ) {
+		return NULL;
+	}
+
+	$key = strtolower( $search );
+
+	if( is_array( $translations->$key ) ) {
+		return $translations->$key;
+	}
+
+	$key_len = strlen( $key );
+
+	$matches = [];
+
+	foreach( $translations as $en => $de_list ) {
+		$pos = strpos( $en, $key );
+
+		if(
+			( $key_len >= 4 && $pos !== FALSE ) ||
+			( $key_len < 4 && $pos === 0 )
+		) {
+			$matches = array_merge( $matches, $de_list );
+		}
+	}
+
+	asort( $matches );
+
+	$matches_len = count( $matches );
+
+	if( $matches_len > 0 && $matches_len <= 10 ) {
+		return $matches;
+	}
+
+	return NULL;
 }

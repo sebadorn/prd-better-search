@@ -1,5 +1,6 @@
 # Directories
 /index-data
+/translation-data/*.html
 
 # Files
 *.sublime-*

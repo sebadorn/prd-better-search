@@ -138,7 +138,7 @@ function ui_build_listitem( $class, $i, $item ) {
 
 	if( is_array( $item->slot ) && $item->slot[0] !== '-' ) {
 		$slot = implode( $item->slot, ', ' );
-		$out .= '<div class="slot"><span>Slot:</span> ' . $slot . '</div>';
+		$out .= '<div class="slot"><span>Platz:</span> ' . $slot . '</div>';
 	}
 
 	if( $item->school ) {
@@ -172,6 +172,47 @@ function ui_build_listitem( $class, $i, $item ) {
 	}
 
 	return $out . '</li>';
+}
+
+
+/**
+ *
+ * @param  array $values
+ * @return string
+ */
+function ui_build_translation_list( $values ) {
+	if( is_null( $values ) || count( $values ) === 0 ) {
+		return '';
+	}
+
+	$out = '<div class="translations">';
+	$out .= '<p>Folgende mögliche Übersetzungen wurden gefunden:</p>';
+	$out .= '<div class="links">';
+
+	$params = '';
+	$filter = get_search_filter();
+	$book = get_search_book();
+
+	if( $filter) {
+		$params .= '&f=' . $filter;
+	}
+
+	if( $book ) {
+		$params .= '&b=' . $book;
+	}
+
+	foreach( $values as $i => $de ) {
+		$text = htmlspecialchars( $de );
+		$link = '?s=' . $text . $params;
+		$out .= '<a href="' . $link . '">' . $text . '</a>, ';
+	}
+
+	$out = substr( $out, 0, -2 );
+
+	$out .= '</div>';
+	$out .= '</div>';
+
+	return $out;
 }
 
 
