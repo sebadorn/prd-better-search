@@ -6,6 +6,7 @@ include( 'search.php' );
 $results = get_search_results();
 $term = get_search_term();
 $trans_sugg = get_translation_suggestions();
+$en_term = get_english_term( $search );
 
 ?>
 <!DOCTYPE html>
@@ -27,6 +28,8 @@ $trans_sugg = get_translation_suggestions();
 	<select name="f"><?php echo ui_build_filter_list() ?></select>
 	<select name="b"><?php echo ui_build_book_list() ?></select>
 </form>
+
+<?php echo ui_build_en_term( $en_term ); ?>
 
 <?php echo ui_build_translation_list( $trans_sugg ); ?>
 

@@ -231,3 +231,29 @@ function get_translation_suggestions() {
 
 	return NULL;
 }
+
+
+/**
+ *
+ * @param  string $s
+ * @return string|NULL
+ */
+function get_english_term( $s ) {
+	global $translations;
+
+	if( is_null( $translations ) || !is_string( $s ) ) {
+		return NULL;
+	}
+
+	$s = strtolower( $s );
+
+	foreach( $translations as $en => $de_list ) {
+		foreach( $de_list as $i => $de ) {
+			if( strcmp( strtolower( $de ), $s ) === 0 ) {
+				return $en;
+			}
+		}
+	}
+
+	return NULL;
+}

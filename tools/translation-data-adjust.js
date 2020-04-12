@@ -6,6 +6,13 @@ const path = require( 'path' );
 const DATA_PATH = path.join( __dirname, '..', 'translation-data' );
 
 
+const getFileJSON = file => {
+	const filePath = path.join( DATA_PATH, file );
+	const json = fs.readFileSync( filePath );
+
+	return JSON.parse( json );
+};
+
 const getFileHTML = file => {
 	const filePath = path.join( DATA_PATH, file );
 	const html = fs.readFileSync( filePath );
@@ -114,6 +121,16 @@ DATA.forEach( entry => {
 } );
 
 
+// Combine with custom list. Custom entries
+// overwrite entries which have the same key.
+const customFile = path.join( DATA_PATH, 'custom.json' );
+
+if( fs.existsSync( customFile ) ) {
+	const custom = getFileJSON( 'custom.json' );
+	Object.assign( translations, custom );
+}
+
+
 // Sort translations by key (en).
 const sorted = {};
 
@@ -123,7 +140,7 @@ keys = keys.sort( ( a, b ) => {
 } );
 
 keys.forEach( key => {
-	sorted[key] = translations[key];
+	sorted[key.toLowerCase()] = translations[key];
 } );
 
 writeFileJSON( 'translations.json', sorted );

@@ -59,9 +59,35 @@ function ui_build_book_list() {
 	$out = '<option value="-">— kein Buch —</option>';
 
 	foreach( $books as $i => $book ) {
-		$check = ( $_GET['b'] === $book ) ? ' selected="selected"' : '';
+		$check = ( $_GET['b'] === $book ) ? ' selected' : '';
 		$out .= "<option value=\"{$book}\"{$check}>{$book}</option>";
 	}
+
+	return $out;
+}
+
+
+/**
+ *
+ * @param  string|NULL $term
+ * @return string
+ */
+function ui_build_en_term( $term ) {
+	if( !is_string( $term ) ) {
+		return '';
+	}
+
+	$ddg = 'https://duckduckgo.com/?q=site%3Ad20pfsrd.com+';
+	$ddg .= urlencode( $term );
+
+	$link = '<a href="' . $ddg . '" rel="noreferrer">';
+	$link .= htmlspecialchars( $term );
+	$link .= '</a>';
+
+	$out = '<div class="term-en">';
+	$out .= '<p>Englischer Ausdruck:</p>';
+	$out .= '<div class="term">' . $link . '</div>';
+	$out .= '</div>';
 
 	return $out;
 }
@@ -92,7 +118,7 @@ function ui_build_filter_list() {
 			$text = get_translation( $value );
 		}
 
-		$check = ( $_GET['f'] === $value ) ? ' selected="selected"' : '';
+		$check = ( $_GET['f'] === $value ) ? ' selected' : '';
 		$out .= "<option value=\"{$value}\"{$check}>{$text}</option>";
 	}
 
