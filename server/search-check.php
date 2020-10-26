@@ -286,7 +286,10 @@ function check_mod_type( $value, $item, &$results ) {
  */
 function check_name( $search, $item, &$results ) {
 	$added = 0;
+
 	$name = strtolower( $item->name );
+	$needles = array( ',', ';', '.', ':' );
+	$name = str_replace( $needles, '', $name );
 
 	if( strcmp( $name, $search ) === 0 ) {
 		array_push( $results['title_perfect'], $item );
@@ -308,6 +311,16 @@ function check_name( $search, $item, &$results ) {
 
 				break;
 			}
+		}
+	}
+
+	// Fuzzy search.
+	if( $added === 0 ) {
+		similar_text( $name, $search, $percent );
+
+		if( $percent >= FUZZY_MIN ) {
+			array_push( $results['fuzzy'], $item );
+			$added++;
 		}
 	}
 

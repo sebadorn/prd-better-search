@@ -44,6 +44,10 @@ foreach( $results['title_contains'] as $i => $item ) {
 	echo ui_build_listitem( 'title-contains', $i, $item );
 }
 
+foreach( $results['fuzzy'] as $i => $item ) {
+	echo ui_build_listitem( 'fuzzy', $i, $item );
+}
+
 foreach( $results['desc'] as $i => $item ) {
 	echo ui_build_listitem( 'desc-contains', $i, $item );
 }

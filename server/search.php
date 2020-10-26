@@ -1,5 +1,6 @@
 <?php
 
+define( 'FUZZY_MIN', 80 );
 define( 'NUM_MAX_RESULTS', 600 );
 define( 'TERM_MIN_LENGTH', 2 );
 define( 'TERM_MAX_LENGTH', 1000 );
@@ -119,6 +120,7 @@ function get_search_results() {
 	$results = [
 		'title_perfect' => [],
 		'title_contains' => [],
+		'fuzzy' => [],
 		'desc' => [],
 		'keywords' => []
 	];
@@ -162,6 +164,7 @@ function get_search_results() {
 
 	usort( $results['title_perfect'], 'result_cmp' );
 	usort( $results['title_contains'], 'result_cmp' );
+	usort( $results['fuzzy'], 'result_cmp' );
 	usort( $results['desc'], 'result_cmp' );
 	usort( $results['keywords'], 'result_cmp' );
 
@@ -178,6 +181,11 @@ function get_search_term() {
 
 	if( isset( $_GET['s'] ) ) {
 		$search = strtolower( trim( $_GET['s'] ) );
+
+		// Remove some characters.
+		$needles = array( ',', '.', ':' );
+		$search = str_replace( $needles, '', $search );
+
 		$len = strlen( $search );
 
 		if( $len < TERM_MIN_LENGTH || $len > TERM_MAX_LENGTH ) {
