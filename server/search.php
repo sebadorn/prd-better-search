@@ -183,7 +183,7 @@ function get_search_term() {
 		$search = strtolower( trim( $_GET['s'] ) );
 
 		// Remove some characters.
-		$needles = array( ',', '.', ':' );
+		$needles = array( ',', ';', '.', ':', '-' );
 		$search = str_replace( $needles, '', $search );
 
 		$len = strlen( $search );

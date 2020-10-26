@@ -288,7 +288,7 @@ function check_name( $search, $item, &$results ) {
 	$added = 0;
 
 	$name = strtolower( $item->name );
-	$needles = array( ',', ';', '.', ':' );
+	$needles = array( ',', ';', '.', ':', '-' );
 	$name = str_replace( $needles, '', $name );
 
 	if( strcmp( $name, $search ) === 0 ) {
