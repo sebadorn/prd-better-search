@@ -8,6 +8,18 @@ $term = get_search_term();
 $trans_sugg = get_translation_suggestions();
 $en_term = get_english_term( $search );
 
+$title = 'PRD-Suche ' . VERSION;
+
+if( $search ) {
+	$s = htmlspecialchars( $_GET['s'] );
+
+	if( strlen( $s ) > 20 ) {
+		$s = substr( $s, 0, 20 ) . '…';
+	}
+
+	$title = $s . ' | ' . $title;
+}
+
 ?>
 <!DOCTYPE html>
 
@@ -15,14 +27,14 @@ $en_term = get_english_term( $search );
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>PRD-Suche</title>
+	<title><?php echo $title ?></title>
 	<link rel="stylesheet" href="screen.css">
 </head>
 <body>
 
 <form class="search" method="GET" action="index.php">
 	<div class="line">
-		<input name="s" placeholder="Suche …" value="<?php echo htmlspecialchars( $_GET["s"] ) ?>" />
+		<input name="s" placeholder="Suche …" value="<?php echo htmlspecialchars( $_GET['s'] ) ?>" />
 		<button type="submit">&gt;</button>
 	</div>
 	<select name="f"><?php echo ui_build_filter_list() ?></select>
@@ -36,28 +48,38 @@ $en_term = get_english_term( $search );
 <ol class="results">
 <?php
 
-foreach( $results['title_perfect'] as $i => $item ) {
-	echo ui_build_listitem( 'title-perfect', $i, $item );
+$num_shown = 0;
+$num_skip = CURRENT_PAGE * NUM_PER_PAGE;
+$num_skipped = 0;
+
+function echo_results( $key, $class ) {
+	global $num_shown, $num_skip, $num_skipped, $results;
+
+	foreach( $results[$key] as $i => $item ) {
+		if( $num_skipped < $num_skip ) {
+			$num_skipped++;
+			continue;
+		}
+
+		echo ui_build_listitem( $class, $i, $item );
+		$num_shown++;
+
+		if( $num_shown >= NUM_PER_PAGE ) {
+			break;
+		}
+	}
 }
 
-foreach( $results['title_contains'] as $i => $item ) {
-	echo ui_build_listitem( 'title-contains', $i, $item );
-}
-
-foreach( $results['fuzzy'] as $i => $item ) {
-	echo ui_build_listitem( 'fuzzy', $i, $item );
-}
-
-foreach( $results['desc'] as $i => $item ) {
-	echo ui_build_listitem( 'desc-contains', $i, $item );
-}
-
-foreach( $results['keywords'] as $i => $item ) {
-	echo ui_build_listitem( 'keywords-contain', $i, $item );
-}
+echo_results( 'title_perfect', 'title-perfect' );
+echo_results( 'title_contains', 'title-contains' );
+echo_results( 'fuzzy', 'fuzzy' );
+echo_results( 'desc', 'desc-contains' );
+echo_results( 'keywords', 'keywords-contains' );
 
 ?>
 </ol>
 
+<?php echo ui_build_pagination( $num_shown, $results['num_results'] ) ?>
+<!-- Results: <?php echo $results['num_results'] . '/' . NUM_MAX_RESULTS ?> -->
 </body>
 </html>

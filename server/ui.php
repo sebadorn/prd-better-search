@@ -203,6 +203,61 @@ function ui_build_listitem( $class, $i, $item ) {
 
 /**
  *
+ * @param  int $num_shown
+ * @param  int $num_total
+ * @return string
+ */
+function ui_build_pagination( $num_shown, $num_total ) {
+	if( $num_shown >= $num_total || NUM_PER_PAGE < 1 ) {
+		return '';
+	}
+
+	$num_pages = ceil( $num_total / NUM_PER_PAGE );
+
+	if( $num_pages <= 1 ) {
+		return '';
+	}
+
+	$link = '';
+	$sep = '?';
+
+	if( isset( $_GET['s'] ) ) {
+		$link .= $sep . 's=' . htmlspecialchars( $_GET['s'] );
+		$sep = '&';
+	}
+
+	if( isset( $_GET['f'] ) && $_GET['f'] !== '-' ) {
+		$link .= $sep . 'f=' . htmlspecialchars( $_GET['f'] );
+		$sep = '&';
+	}
+
+	if( isset( $_GET['b'] ) && $_GET['b'] !== '-' ) {
+		$link .= $sep . 'b=' . htmlspecialchars( $_GET['b'] );
+		$sep = '&';
+	}
+
+	$link .= $sep . 'page=';
+
+	$out = '<div class="pages">';
+
+	for( $i = 0; $i < $num_pages; $i++ ) {
+		$class = '';
+
+		if( $i === CURRENT_PAGE ) {
+			$class = ' class="current"';
+		}
+
+		$out .= '<a href="' . $link . $i . '"' . $class . '>' . ( $i + 1 ) . '</a>';
+	}
+
+	$out .= '</div>';
+
+	return $out;
+}
+
+
+/**
+ *
  * @param  array $values
  * @return string
  */

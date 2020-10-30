@@ -1,9 +1,18 @@
 <?php
 
-define( 'FUZZY_MIN', 80 );
-define( 'NUM_MAX_RESULTS', 600 );
+define( 'FUZZY_MIN', 75 );
+define( 'NUM_PER_PAGE', 100 );
+define( 'NUM_MAX_RESULTS', 2000 );
 define( 'TERM_MIN_LENGTH', 2 );
 define( 'TERM_MAX_LENGTH', 1000 );
+define( 'VERSION', '1.3' );
+
+if( isset( $_GET['page'] ) && $_GET['page'] >= 0 ) {
+	define( 'CURRENT_PAGE', intval( $_GET['page'] ) );
+}
+else {
+	define( 'CURRENT_PAGE', 0 );
+}
 
 include( 'search-check.php' );
 
@@ -20,9 +29,15 @@ $data = [
 $translations = NULL;
 
 $search = get_search_term();
+$filter = get_search_filter();
+$filter_book = get_search_book();
 
 
-if( $search ) {
+if(
+	$search ||
+	!is_null( $filter ) ||
+	!is_null( $filter_book )
+) {
 	foreach( $data as $key => $value ) {
 		$path = "index-data/{$key}.json";
 		$handle = fopen( $path, 'r' );
@@ -78,7 +93,7 @@ function result_cmp( $a, $b ) {
 function get_search_book() {
 	$book = NULL;
 
-	if( isset( $_GET['b'] ) ) {
+	if( isset( $_GET['b'] ) && $_GET['b'] !== '-' ) {
 		$book = $_GET['b'];
 		$books = get_books();
 
@@ -98,7 +113,7 @@ function get_search_book() {
 function get_search_filter() {
 	$filter = NULL;
 
-	if( isset( $_GET['f'] ) ) {
+	if( isset( $_GET['f'] ) && $_GET['f'] !== '-' ) {
 		$filter = $_GET['f'];
 
 		if( get_translation( $filter ) === '' ) {
@@ -125,13 +140,23 @@ function get_search_results() {
 		'keywords' => []
 	];
 
-	if( is_null( $search ) ) {
-		return $results;
-	}
+	$no_search_term = is_null( $search );
 
 	$filter = get_search_filter();
 	$filter_book = get_search_book();
-	$mod = get_search_mod( $search );
+	$mod = NULL;
+
+	if(
+		is_null( $filter ) &&
+		is_null( $filter_book ) &&
+		$no_search_term
+	) {
+		return $results;
+	}
+
+	if( !$no_search_term ) {
+		$mod = get_search_mod( $search );
+	}
 
 	$num_results = 0;
 
@@ -154,7 +179,16 @@ function get_search_results() {
 			}
 
 			$item->source = $source;
-			$num_results += check_add_item( $search, $mod, $item, $results );
+
+			// No further checks aside from the previous filters.
+			if( $no_search_term ) {
+				array_push( $results['title_perfect'], $item );
+				$num_results++;
+			}
+			// Do more checks according to the search term.
+			else {
+				$num_results += check_add_item( $search, $mod, $item, $results );
+			}
 
 			if( $num_results >= NUM_MAX_RESULTS ) {
 				break;
@@ -167,6 +201,8 @@ function get_search_results() {
 	usort( $results['fuzzy'], 'result_cmp' );
 	usort( $results['desc'], 'result_cmp' );
 	usort( $results['keywords'], 'result_cmp' );
+
+	$results['num_results'] = $num_results;
 
 	return $results;
 }
@@ -243,7 +279,7 @@ function get_translation_suggestions() {
 
 /**
  *
- * @param  string $s
+ * @param  string|NULL $s
  * @return string|NULL
  */
 function get_english_term( $s ) {
