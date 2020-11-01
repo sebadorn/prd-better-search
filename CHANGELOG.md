@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4 (2020-11-01)
+
+* Fixed search syntax being broken.
+* Added info page for syntax.
+
 ## 1.3 (2020-10-30)
 
 * Added pagination.

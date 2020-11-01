@@ -28,9 +28,17 @@ if( $search ) {
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?php echo $title ?></title>
-	<link rel="stylesheet" href="screen.css">
+	<link rel="stylesheet" href="screen.css?_=3">
 </head>
 <body>
+
+<div class="about">
+	<a href="syntax.html">Syntax</a>
+	&bull;
+	<a href="https://github.com/sebadorn/prd-better-search/blob/master/CHANGELOG.md">Changelog</a>
+	&bull;
+	<code class="version">v<?php echo VERSION ?></code>
+</div>
 
 <form class="search" method="GET" action="index.php">
 	<div class="line">

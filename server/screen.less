@@ -57,6 +57,22 @@ select {
 	font-size: 16px;
 }
 
+code,
+.example {
+	font-family: "Fira Code", "DejaVu Sans Mono", monospace;
+}
+
+.about {
+	margin-bottom: 20px;
+	text-align: center;
+
+	code {
+		background-color: #303030;
+		font-size: 14px;
+		padding: 2px 4px;
+	}
+}
+
 form.search {
 	width: 100%;
 
@@ -221,5 +237,36 @@ form.search {
 		background-color: #000;
 		cursor: default;
 		pointer-events: none;
+	}
+}
+
+.syntax {
+	line-height: 22px;
+	padding-bottom: 120px;
+
+	h2,
+	h3 {
+		margin: 2em auto 1em;
+	}
+
+	h3 {
+		border-bottom: 1px solid #303030;
+		padding-bottom: 0.25em;
+	}
+
+	p {
+		margin-bottom: 1em;
+	}
+
+	code,
+	.example {
+		background-color: #303030;
+		padding: 2px 6px;
+	}
+
+	.example {
+		line-height: 22px;
+		margin-bottom: 1em;
+		padding: 10px;
 	}
 }

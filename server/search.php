@@ -5,7 +5,7 @@ define( 'NUM_PER_PAGE', 100 );
 define( 'NUM_MAX_RESULTS', 2000 );
 define( 'TERM_MIN_LENGTH', 2 );
 define( 'TERM_MAX_LENGTH', 1000 );
-define( 'VERSION', '1.3' );
+define( 'VERSION', '1.4' );
 
 if( isset( $_GET['page'] ) && $_GET['page'] >= 0 ) {
 	define( 'CURRENT_PAGE', intval( $_GET['page'] ) );
@@ -158,6 +158,9 @@ function get_search_results() {
 		$mod = get_search_mod( $search );
 	}
 
+	$needles = array( ',', ';', '.', ':', '-' );
+	$search_cleaned = str_replace( $needles, '', $search );
+
 	$num_results = 0;
 
 	foreach( $data as $source => $contents ) {
@@ -187,7 +190,7 @@ function get_search_results() {
 			}
 			// Do more checks according to the search term.
 			else {
-				$num_results += check_add_item( $search, $mod, $item, $results );
+				$num_results += check_add_item( $search_cleaned, $mod, $item, $results );
 			}
 
 			if( $num_results >= NUM_MAX_RESULTS ) {
@@ -217,11 +220,6 @@ function get_search_term() {
 
 	if( isset( $_GET['s'] ) ) {
 		$search = strtolower( trim( $_GET['s'] ) );
-
-		// Remove some characters.
-		$needles = array( ',', ';', '.', ':', '-' );
-		$search = str_replace( $needles, '', $search );
-
 		$len = strlen( $search );
 
 		if( $len < TERM_MIN_LENGTH || $len > TERM_MAX_LENGTH ) {

@@ -2,4 +2,4 @@
 
 Ideas for further improvement:
 
-* Info on the page about search syntax
+* Syntax: Combine different filters

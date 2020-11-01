@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Syntax | PRD-Suche</title>
+	<link rel="stylesheet" href="screen.css?_=2">
+</head>
+<body class="syntax">
+
+
+<h2>Allgemeine Hinweise</h2>
+
+<p>Groß- oder Klein&shy;schreibung ist egal.</p>
+<p>Die folgenden Satz&shy;zeichen werden ignoriert: <code>,;.:-</code></p>
+
+
+<h2>Erweiterte Such-Syntax</h2>
+
+
+<h3>Herausforderungsgrad</h3>
+
+<p>Um nach einem bestimmten Heraus&shy;forderungs&shy;grad zu filtern, verwende den <code>HG</code>-Prefix. Einen HG-Eintrag gibt es nur bei Monstern.</p>
+
+<pre class="example">
+HG: 1/2
+HG: 0.5
+HG: 0,5
+HG: ½
+HG: 1
+HG: 24
+hg:1
+</pre>
+
+
+<h3>Typ</h3>
+
+<p>Um nach einem bestimmten Typ zu filtern, verwende den <code>TYP</code>-Prefix. Einen Typ-Eintrag gibt es bei Monstern, Talenten und Wesens&shy;zügen.</p>
+
+<pre class="example">
+Typ: Kampf
+typ:kampf
+typ: krit
+TYP: Tier
+</pre>
+
+
+<h3>Talent-Voraussetzungen</h3>
+
+<p>Um nach einer bestimmten Voraus&shy;setzung zu filtern, verwende den <code>REQ</code>-Prefix. Einen Voraus&shy;setzungs-Eintrag gibt es nur bei Talenten.</p>
+
+<pre class="example">
+REQ: GAB +6
+req:gab +6
+</pre>
+
+<p>Außer nach einem konkreten Wert, lässt sich auch ein Bereich angeben:</p>
+
+<pre class="example">
+req:ge >12
+</pre>
+
+<p>Dies würde alle Talente ausgeben, die als Voraus&shy;setzung ein Geschick von 13 oder höher haben.</p>
+<p>Weitere Beispiele:</p>
+
+<pre class="example">
+req:gab >+6
+req: GAB <10
+Req: WE>9
+REQ:zs> 7
+req: wil > 0
+</pre>
+
+
+<h3>Zauber</h3>
+
+<p>Um nach einer bestimmten Schuld oder Unter-Schule zu filtern, verwende den <code>SCHULE</code>-Prefix. Einen Schule-Eintrag gibt es bei Zaubern und Worten der Macht.</p>
+
+<pre class="example">
+Schule: Illusion
+schule:zwang
+</pre>
+
+
+<h3>Nach Buch gefiltert</h3>
+
+<pre class="example">
+Buch:Grundregelwerk
+BUCH: Ausbauregeln II: kampf
+buch:ausbauregeln
+</pre>
+
+</body>
+</html>
