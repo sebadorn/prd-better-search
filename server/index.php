@@ -53,6 +53,8 @@ if( $search ) {
 
 <?php echo ui_build_translation_list( $trans_sugg ); ?>
 
+<?php echo ui_build_short_info( $results ); ?>
+
 <ol class="results">
 <?php
 

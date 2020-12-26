@@ -57,6 +57,10 @@ select {
 	font-size: 16px;
 }
 
+table {
+	border-collapse: collapse;
+}
+
 code,
 .example {
 	font-family: "Fira Code", "DejaVu Sans Mono", monospace;
@@ -108,7 +112,8 @@ form.search {
 }
 
 .term-en,
-.translations {
+.translations,
+.short-info {
 	background-color: #303030;
 	border: 2px solid #000000;
 	border-radius: 2px;
@@ -121,6 +126,57 @@ form.search {
 		font-weight: 600;
 		margin: -10px -10px 5px;
 		padding: 5px 10px;
+	}
+}
+
+.short-info {
+	margin-top: 10px;
+
+	&.magic {
+		box-shadow: 0 0 5px @color-magic;
+	}
+
+	&.magic-items {
+		box-shadow: 0 0 5px @color-magic-items;
+	}
+
+	&.monsters {
+		box-shadow: 0 0 5px @color-monsters;
+	}
+
+	&.rules {
+		box-shadow: 0 0 5px @color-rules;
+	}
+
+	&.talents {
+		box-shadow: 0 0 5px @color-talents;
+	}
+
+	&.traits {
+		box-shadow: 0 0 5px @color-traits;
+	}
+
+	&.words-of-power {
+		box-shadow: 0 0 5px @color-words-of-power;
+	}
+
+	table {
+		margin: -11px;
+	}
+
+	td,
+	th {
+		border: 1px solid #000000;
+		padding: 4px 10px;
+	}
+
+	th {
+		background-color: #404040;
+	}
+
+	.note {
+		font-size: 14px;
+		line-height: 21px;
 	}
 }
 
@@ -268,5 +324,9 @@ form.search {
 		line-height: 22px;
 		margin-bottom: 1em;
 		padding: 10px;
+
+		a {
+			text-decoration-color: #505050;
+		}
 	}
 }

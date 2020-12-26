@@ -24,13 +24,13 @@
 <p>Um nach einem bestimmten Heraus&shy;forderungs&shy;grad zu filtern, verwende den <code>HG</code>-Prefix. Einen HG-Eintrag gibt es nur bei Monstern.</p>
 
 <pre class="example">
-HG: 1/2
-HG: 0.5
-HG: 0,5
-HG: ½
-HG: 1
-HG: 24
-hg:1
+<a href="./?s=HG%3A+1%2F2&f=monsters">HG: 1/2</a>
+<a href="./?s=HG%3A+0.5&f=monsters">HG: 0.5</a>
+<a href="./?s=HG%3A+0%2C5&f=monsters">HG: 0,5</a>
+<a href="./?s=HG%3A+½&f=monsters">HG: ½</a>
+<a href="./?s=HG%3A+1&f=monsters">HG: 1</a>
+<a href="./?s=HG%3A+24&f=monsters">HG: 24</a>
+<a href="./?s=hg%3A1&f=monsters">hg:1</a>
 </pre>
 
 
@@ -39,10 +39,10 @@ hg:1
 <p>Um nach einem bestimmten Typ zu filtern, verwende den <code>TYP</code>-Prefix. Einen Typ-Eintrag gibt es bei Monstern, Talenten und Wesens&shy;zügen.</p>
 
 <pre class="example">
-Typ: Kampf
-typ:kampf
-typ: krit
-TYP: Tier
+<a href="./?s=Typ%3A+Kampf">Typ: Kampf</a>
+<a href="./?s=typ%3Akampf">typ:kampf</a>
+<a href="./?s=typ%3A+krit">typ: krit</a>
+<a href="./?s=TYP%3A+Tier">TYP: Tier</a>
 </pre>
 
 
@@ -51,25 +51,26 @@ TYP: Tier
 <p>Um nach einer bestimmten Voraus&shy;setzung zu filtern, verwende den <code>REQ</code>-Prefix. Einen Voraus&shy;setzungs-Eintrag gibt es nur bei Talenten.</p>
 
 <pre class="example">
-REQ: GAB +6
-req:gab +6
+<a href="./?s=REQ%3A+GAB+%2B6&f=talents">REQ: GAB +6</a>
+<a href="./?s=req%3Agab+%2B6&f=talents">req:gab +6</a>
 </pre>
 
 <p>Außer nach einem konkreten Wert, lässt sich auch ein Bereich angeben:</p>
 
 <pre class="example">
-req:ge >12
+<a href="./?s=req%3Age+>12&f=talents">req:ge >12</a>
 </pre>
 
 <p>Dies würde alle Talente ausgeben, die als Voraus&shy;setzung ein Geschick von 13 oder höher haben.</p>
 <p>Weitere Beispiele:</p>
 
 <pre class="example">
-req:gab >+6
-req: GAB <10
-Req: WE>9
-REQ:zs> 7
-req: wil > 0
+<a href="./?s=req%3Agab+>%2B6&f=talents">req:gab >+6</a>
+<a href="./?s=req%3A+GAB+<10&f=talents">req: GAB <10</a>
+<a href="./?s=Req%3A+WE>9">Req: WE>9</a>
+<a href="./?s=REQ%3Azs>+7">REQ:zs> 7</a>
+<a href="./?s=req%3A+wil+>+0">req: wil > 0</a>
+<a href="./?s=req%3Awaffenfokus">req:waffenfokus</a>
 </pre>
 
 
@@ -78,17 +79,17 @@ req: wil > 0
 <p>Um nach einer bestimmten Schule oder Unter-Schule zu filtern, verwende den <code>SCHULE</code>-Prefix. Einen Schule-Eintrag gibt es bei Zaubern und Worten der Macht.</p>
 
 <pre class="example">
-Schule: Illusion
-schule:zwang
+<a href="./?s=Schule%3A+Illusion">Schule: Illusion</a>
+<a href="./?s=schule%3Azwang">schule:zwang</a>
 </pre>
 
 
 <h3>Nach Buch gefiltert</h3>
 
 <pre class="example">
-Buch:Grundregelwerk
-BUCH: Ausbauregeln II: kampf
-buch:ausbauregeln
+<a href="./?s=Buch%3AGrundregelwerk">Buch:Grundregelwerk</a>
+<a href="./?s=BUCH%3A+Ausbauregeln+II%3A+kampf">BUCH: Ausbauregeln II: kampf</a>
+<a href="./?s=buch%3Aausbauregeln">buch:ausbauregeln</a>
 </pre>
 
 </body>

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5 (2020-12-26)
+
+* Added short info for certain first search result terms. Currently a short info is available for "Schadensreduzierung".
+* Syntax page: Linked examples to see them in action.
+
 ## 1.4 (2020-11-01)
 
 * Fixed search syntax being broken.

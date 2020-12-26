@@ -1,6 +1,9 @@
 <?php
 
 
+include( 'short-info.php' );
+
+
 $books = NULL;
 
 
@@ -258,6 +261,22 @@ function ui_build_pagination( $num_shown, $num_total ) {
 
 /**
  *
+ * @param  array $results
+ * @return string
+ */
+function ui_build_short_info( $results ) {
+	$first = get_first_result( $results );
+
+	if( is_null( $first ) ) {
+		return;
+	}
+
+	return get_short_info( $first );
+}
+
+
+/**
+ *
  * @param  array $values
  * @return string
  */
@@ -274,7 +293,7 @@ function ui_build_translation_list( $values ) {
 	$filter = get_search_filter();
 	$book = get_search_book();
 
-	if( $filter) {
+	if( $filter ) {
 		$params .= '&f=' . $filter;
 	}
 
