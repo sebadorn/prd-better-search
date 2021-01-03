@@ -101,6 +101,8 @@ If you made changes to `screen.less` recompile it with:
 Then upload everything the application needs to your server. The final structure on the server should look like this:
 
     index-data/
+      custom/
+        rules.json
       books.json
       magic-items.json
       magic.json
@@ -110,11 +112,14 @@ Then upload everything the application needs to your server. The final structure
       traits.json
       words-of-power.json
     translation-data/
+      custom.json
       translations.json
     index.php
     screen.css
     search-check.php
     search.php
+    short-info.php
+    syntax.html
     ui.php
 
 
