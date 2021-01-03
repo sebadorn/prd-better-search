@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6 (2021-01-03)
+
+* Fixed result description not being shortened if too long. (Character limit of 250.)
+* Added support for custom JSON files to extend index data.
+
 ## 1.5 (2020-12-26)
 
 * Added short info for certain first search result terms. Currently a short info is available for "Schadensreduzierung".

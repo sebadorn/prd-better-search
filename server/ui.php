@@ -139,6 +139,10 @@ function ui_build_filter_list() {
 function ui_build_listitem( $class, $i, $item ) {
 	$link = 'http://prd.5footstep.de/Permalink?page_id=' . $item->id;
 
+	if( $item->url ) {
+		$link = 'http://prd.5footstep.de/' . $item->url;
+	}
+
 	$out = "<li class=\"result {$class} {$item->source}\">";
 	$out .= '<header>';
 	$out .= '<a class="name" href="' . $link . '">' . ui_text_name( $item ) . '</a>';
@@ -191,10 +195,10 @@ function ui_build_listitem( $class, $i, $item ) {
 	}
 
 	if( $item->desc ) {
-		$desc = $item->desc;
+		$desc = trim( $item->desc );
 
-		if( strlen( $desc ) >= 250 ) {
-			$desc = trim( $desc ) . '…';
+		if( strlen( $desc ) > 250 ) {
+			$desc = substr( $desc, 0, 250 ) . '…';
 		}
 
 		$out .= '<div class="desc">' . $desc . '</div>';

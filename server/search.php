@@ -5,7 +5,7 @@ define( 'NUM_PER_PAGE', 100 );
 define( 'NUM_MAX_RESULTS', 2000 );
 define( 'TERM_MIN_LENGTH', 2 );
 define( 'TERM_MAX_LENGTH', 1000 );
-define( 'VERSION', '1.5' );
+define( 'VERSION', '1.6' );
 
 if( isset( $_GET['page'] ) && $_GET['page'] >= 0 ) {
 	define( 'CURRENT_PAGE', intval( $_GET['page'] ) );
@@ -23,7 +23,19 @@ $data = [
 	'rules' => NULL,
 	'talents' => NULL,
 	'traits' => NULL,
-	'words-of-power' => NULL,
+	'words-of-power' => NULL
+];
+
+// Set to true/false if a valid JSON
+// file exists in "index-data/custom/".
+$has_custom_data = [
+	'magic-items' => false,
+	'magic' => false,
+	'monsters' => false,
+	'rules' => true,
+	'talents' => false,
+	'traits' => false,
+	'words-of-power' => false
 ];
 
 $translations = NULL;
@@ -45,6 +57,23 @@ if(
 		fclose( $handle );
 
 		$data[$key] = json_decode( $content );
+
+		if( $has_custom_data[$key] ) {
+			// Check for custom data.
+			$path_custom = "index-data/custom/{$key}.json";
+
+			if( file_exists( $path_custom ) ) {
+				$handle_custom = fopen( $path_custom, 'r' );
+				$content_custom = fread( $handle_custom, filesize( $path_custom ) );
+				fclose( $handle_custom );
+
+				$data_custom = json_decode( $content_custom );
+
+				if( is_array( $data_custom ) ) {
+					$data[$key] = array_merge( $data[$key], $data_custom );
+				}
+			}
+		}
 	}
 
 	$path = 'translation-data/translations.json';
