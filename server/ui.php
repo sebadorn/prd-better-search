@@ -197,8 +197,8 @@ function ui_build_listitem( $class, $i, $item ) {
 	if( $item->desc ) {
 		$desc = trim( $item->desc );
 
-		if( strlen( $desc ) > 250 ) {
-			$desc = substr( $desc, 0, 250 ) . '…';
+		if( strlen( $desc ) > 249 ) {
+			$desc = mb_substr( $desc, 0, 249, 'UTF-8' ) . '…';
 		}
 
 		$out .= '<div class="desc">' . $desc . '</div>';
