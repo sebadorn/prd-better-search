@@ -53,6 +53,7 @@ This will return all talents with a dexterity requirement of 13 or above. Other 
     Req: WE>9
     REQ:zs> 7
     req: wil > 0
+    req:ge>=13 && req:ausweichen
 
 To find all spells of a certain school or sub school, use `Schule:`. Examples:
 

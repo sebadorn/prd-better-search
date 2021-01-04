@@ -11,13 +11,13 @@ $en_term = get_english_term( $search );
 $title = 'PRD-Suche ' . VERSION;
 
 if( $search ) {
-	$s = htmlspecialchars( $_GET['s'] );
+	$s = $_GET['s'];
 
-	if( strlen( $s ) > 20 ) {
-		$s = substr( $s, 0, 20 ) . '…';
+	if( mb_strlen( $s, 'UTF-8' ) > 20 ) {
+		$s = mb_substr( $s, 0, 20, 'UTF-8' ) . '…';
 	}
 
-	$title = $s . ' | ' . $title;
+	$title = htmlspecialchars( $s ) . ' | ' . $title;
 }
 
 ?>

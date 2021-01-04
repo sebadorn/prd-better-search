@@ -32,21 +32,44 @@ function check_add_item( $search, $mod, $item, &$results ) {
  */
 function check_mod( $mod, $item, &$results ) {
 	$added = 0;
+	$matched = 0;
+	$num_checks = count( $mod ) / 2;
 
-	if( $mod[0] === 'BUCH' ) {
-		$added += check_mod_book( $mod[1], $item, $results );
-	}
-	else if( $mod[0] === 'HG' ) {
-		$added += check_mod_cr( $mod[1], $item, $results );
-	}
-	else if( $mod[0] === 'REQ' ) {
-		$added += check_mod_req( $mod[1], $item, $results );
-	}
-	else if( $mod[0] === 'SCHULE' ) {
-		$added += check_mod_school( $mod[1], $item, $results );
-	}
-	else if( $mod[0] === 'TYP' ) {
-		$added += check_mod_type( $mod[1], $item, $results );
+	// Different mod checks can be combined by using " && ".
+	// The even index is the mod type, and the odd index the value to check for.
+	for( $i = 0; $i < $num_checks * 2; $i += 2 ) {
+		$key = $mod[$i];
+		$value = $mod[$i + 1];
+		$result_key = NULL;
+
+		if( $key === 'BUCH' ) {
+			$result_key = check_mod_book( $value, $item );
+		}
+		else if( $key === 'HG' ) {
+			$result_key = check_mod_cr( $value, $item );
+		}
+		else if( $key === 'REQ' ) {
+			$result_key = check_mod_req( $value, $item );
+		}
+		else if( $key === 'SCHULE' ) {
+			$result_key = check_mod_school( $value, $item );
+		}
+		else if( $key === 'TYP' ) {
+			$result_key = check_mod_type( $value, $item );
+		}
+
+		if( $result_key ) {
+			$matched++;
+		}
+		else {
+			return 0;
+		}
+
+		// Passed all checks, add item to results.
+		if( $matched === $num_checks ) {
+			array_push( $results[$result_key], $item );
+			$added++;
+		}
 	}
 
 	return $added;
@@ -57,26 +80,21 @@ function check_mod( $mod, $item, &$results ) {
  *
  * @param  string $value
  * @param  object $item
- * @param  array  &$results
- * @return number
+ * @return string|null
  */
-function check_mod_book( $value, $item, &$results ) {
-	$added = 0;
-
+function check_mod_book( $value, $item ) {
 	if( $item->book ) {
 		$book = strtolower( $item->book );
 
 		if( strcmp( $book, $value ) === 0 ) {
-			array_push( $results['title_perfect'], $item );
-			$added++;
+			return 'title_perfect';
 		}
 		else if( strpos( $book, $value ) === 0 ) {
-			array_push( $results['title_contains'], $item );
-			$added++;
+			return 'title_contains';
 		}
 	}
 
-	return $added;
+	return NULL;
 }
 
 
@@ -84,18 +102,14 @@ function check_mod_book( $value, $item, &$results ) {
  *
  * @param  number $value
  * @param  object $item
- * @param  array  &$results
- * @return number
+ * @return string|null
  */
-function check_mod_cr( $value, $item, &$results ) {
-	$added = 0;
-
+function check_mod_cr( $value, $item ) {
 	if( $item->cr && $item->cr === $value ) {
-		array_push( $results['title_perfect'], $item );
-		$added++;
+		return 'title_perfect';
 	}
 
-	return $added;
+	return NULL;
 }
 
 
@@ -103,45 +117,34 @@ function check_mod_cr( $value, $item, &$results ) {
  *
  * @param  string $value
  * @param  object $item
- * @param  array  &$results
- * @return number
+ * @return string|null
  */
-function check_mod_school( $value, $item, &$results ) {
-	$added = 0;
-
+function check_mod_school( $value, $item ) {
 	if( $item->school ) {
 		$school = strtolower( $item->school );
 
 		if( strcmp( $school, $value ) === 0 ) {
-			array_push( $results['title_perfect'], $item );
-			$added++;
+			return 'title_perfect';
 		}
 		else if( strpos( $school, $value ) !== FALSE ) {
-			array_push( $results['title_contains'], $item );
-			$added++;
+			return 'title_contains';
 		}
 	}
 
-	if( $added === 0 && is_array( $item->school_sub ) ) {
+	if( is_array( $item->school_sub ) ) {
 		foreach( $item->school_sub as $i => $subschool ) {
 			$subschool = strtolower( $subschool );
 
 			if( strcmp( $subschool, $value ) === 0 ) {
-				array_push( $results['title_perfect'], $item );
-				$added++;
-
-				break;
+				return 'title_perfect';
 			}
 			else if( strpos( $subschool, $value ) !== FALSE ) {
-				array_push( $results['title_contains'], $item );
-				$added++;
-
-				break;
+				return 'title_contains';
 			}
 		}
 	}
 
-	return $added;
+	return NULL;
 }
 
 
@@ -149,14 +152,11 @@ function check_mod_school( $value, $item, &$results ) {
  *
  * @param  string $value
  * @param  object $item
- * @param  array  &$results
- * @return number
+ * @return string|null
  */
-function check_mod_req( $value, $item, &$results ) {
-	$added = 0;
-
+function check_mod_req( $value, $item ) {
 	if( !is_array( $item->requirements ) ) {
-		return $added;
+		return NULL;
 	}
 
 	if( strpos( $value, 'zauberstufe' ) === 0 ) {
@@ -181,7 +181,7 @@ function check_mod_req( $value, $item, &$results ) {
 		'zäh',
 		'zs'
 	];
-	$regex = '/^(' . implode( $options, '|' ) . ')[ ]?([<>])[ ]?[+]?([0-9]+)[+]?$/';
+	$regex = '/^(' . implode( $options, '|' ) . ')[ ]?([<>][=]?)[ ]?[+]?([0-9]+)[+]?$/';
 
 	$matches = NULL;
 
@@ -198,12 +198,11 @@ function check_mod_req( $value, $item, &$results ) {
 
 				if(
 					( $comp === '<' && $reqVal < $maxVal ) ||
-					( $comp === '>' && $reqVal > $maxVal )
+					( $comp === '>' && $reqVal > $maxVal ) ||
+					( $comp === '<=' && $reqVal <= $maxVal ) ||
+					( $comp === '>=' && $reqVal >= $maxVal )
 				) {
-					array_push( $results['title_perfect'], $item );
-					$added++;
-
-					break;
+					return 'title_perfect';
 				}
 			}
 		}
@@ -213,21 +212,15 @@ function check_mod_req( $value, $item, &$results ) {
 			$req = strtolower( $req );
 
 			if( strcmp( $req, $value ) === 0 ) {
-				array_push( $results['title_perfect'], $item );
-				$added++;
-
-				break;
+				return 'title_perfect';
 			}
 			else if( strpos( $req, $value ) !== FALSE ) {
-				array_push( $results['title_contains'], $item );
-				$added++;
-
-				break;
+				return 'title_contains';
 			}
 		}
 	}
 
-	return $added;
+	return NULL;
 }
 
 
@@ -235,45 +228,34 @@ function check_mod_req( $value, $item, &$results ) {
  *
  * @param  string $value
  * @param  object $item
- * @param  array  &$results
- * @return number
+ * @return string|null
  */
-function check_mod_type( $value, $item, &$results ) {
-	$added = 0;
-
+function check_mod_type( $value, $item ) {
 	if( $item->type ) {
 		$type = strtolower( $item->type );
 
 		if( strcmp( $type, $value ) === 0 ) {
-			array_push( $results['title_perfect'], $item );
-			$added++;
+			return 'title_perfect';
 		}
 		else if( strpos( $type, $value ) !== FALSE ) {
-			array_push( $results['title_contains'], $item );
-			$added++;
+			return 'title_contains';
 		}
 	}
 
-	if( $added === 0 && is_array( $item->type_sub ) ) {
+	if( is_array( $item->type_sub ) ) {
 		foreach( $item->type_sub as $i => $subtype ) {
 			$subtype = strtolower( $subtype );
 
 			if( strcmp( $subtype, $value ) === 0 ) {
-				array_push( $results['title_perfect'], $item );
-				$added++;
-
-				break;
+				return 'title_perfect';
 			}
 			else if( strpos( $subtype, $value ) !== FALSE ) {
-				array_push( $results['title_contains'], $item );
-				$added++;
-
-				break;
+				return 'title_contains';
 			}
 		}
 	}
 
-	return $added;
+	return NULL;
 }
 
 
@@ -334,72 +316,83 @@ function check_name( $search, $item, &$results ) {
  * @return array|null
  */
 function get_search_mod( $search ) {
-	$parts = explode( ':', $search );
-
-	if( count( $parts ) < 2 ) {
+	if( strpos( $search, ':' ) === FALSE ) {
 		return NULL;
 	}
 
-	$mod = strtoupper( trim( $parts[0] ) );
-	$value = trim( implode( array_slice( $parts, 1 ), ':' ) );
+	$and = explode( ' && ', $search );
+	$result = [];
 
-	if( $mod === 'BUCH' || $mod === 'BOOK' ) {
-		$mod = 'BUCH';
+	foreach( $and as $i => $andPart ) {
+		$parts = explode( ':', $andPart );
 
-		if( strlen( $value ) === 0 ) {
-			return NULL;
-		}
-	}
-	else if( $mod === 'HG' || $mod === 'CR' ) {
-		$mod = 'HG';
-		$value = str_replace( ',', '.', $value );
-
-		if( $value === '1/2' || $value === '½' ) {
-			$value = 0.5;
-		}
-		else if( $value === '1/3' || $value === '⅓' ) {
-			$value = 0.33;
-		}
-		else if( $value === '1/4' || $value === '¼' ) {
-			$value = 0.25;
-		}
-		else if( $value === '1/6' || $value === '⅙' ) {
-			$value = 0.16;
-		}
-		else if( $value === '1/8' || $value === '⅛' ) {
-			$value = 0.125;
-		}
-
-		if( !is_numeric( $value ) ) {
+		if( count( $parts ) < 2 ) {
 			return NULL;
 		}
 
-		$value += 0; // Cast to strict numeric.
-	}
-	else if( $mod === 'REQ' || $mod === 'VORAUS' ) {
-		$mod = 'REQ';
+		$mod = strtoupper( trim( $parts[0] ) );
+		$value = trim( implode( array_slice( $parts, 1 ), ':' ) );
 
-		if( strlen( $value ) === 0 ) {
+		if( $mod === 'BUCH' || $mod === 'BOOK' ) {
+			$mod = 'BUCH';
+
+			if( strlen( $value ) === 0 ) {
+				return NULL;
+			}
+		}
+		else if( $mod === 'HG' || $mod === 'CR' ) {
+			$mod = 'HG';
+			$value = str_replace( ',', '.', $value );
+
+			if( $value === '1/2' || $value === '½' ) {
+				$value = 0.5;
+			}
+			else if( $value === '1/3' || $value === '⅓' ) {
+				$value = 0.33;
+			}
+			else if( $value === '1/4' || $value === '¼' ) {
+				$value = 0.25;
+			}
+			else if( $value === '1/6' || $value === '⅙' ) {
+				$value = 0.16;
+			}
+			else if( $value === '1/8' || $value === '⅛' ) {
+				$value = 0.125;
+			}
+
+			if( !is_numeric( $value ) ) {
+				return NULL;
+			}
+
+			$value += 0; // Cast to strict numeric.
+		}
+		else if( $mod === 'REQ' || $mod === 'VORAUS' ) {
+			$mod = 'REQ';
+
+			if( strlen( $value ) === 0 ) {
+				return NULL;
+			}
+		}
+		else if( $mod === 'SCHULE' || $mod === 'SCHOOL' ) {
+			$mod = 'SCHULE';
+
+			if( strlen( $value ) === 0 ) {
+				return NULL;
+			}
+		}
+		else if( $mod === 'TYP' || $mod === 'TYPE' ) {
+			$mod = 'TYP';
+
+			if( strlen( $value ) === 0 ) {
+				return NULL;
+			}
+		}
+		else {
 			return NULL;
 		}
-	}
-	else if( $mod === 'SCHULE' || $mod === 'SCHOOL' ) {
-		$mod = 'SCHULE';
 
-		if( strlen( $value ) === 0 ) {
-			return NULL;
-		}
-	}
-	else if( $mod === 'TYP' || $mod === 'TYPE' ) {
-		$mod = 'TYP';
-
-		if( strlen( $value ) === 0 ) {
-			return NULL;
-		}
-	}
-	else {
-		return NULL;
+		array_push( $result, $mod, $value );
 	}
 
-	return [$mod, $value];
+	return $result;
 }

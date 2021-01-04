@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.7 (2021-01-04)
+
+* Search syntax now supports logical AND operator (` && `).
+* Search syntax now supports `<=` and `>=` when comparing numbers.
+
 ## 1.6 (2021-01-03)
 
 * Fixed result description not being shortened if too long. (Character limit of 250.)
