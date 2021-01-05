@@ -134,7 +134,32 @@ form.search {
 }
 
 .short-info {
+	border-width: 1px;
 	margin-top: 10px;
+	padding: 0;
+
+	&.info-gelegenheitsangriffe {
+		max-height: 400px;
+		overflow: hidden auto;
+
+		.maybe,
+		.no,
+		.yes {
+			text-align: center;
+		}
+
+		.maybe {
+			background-color: #8e7b15;
+		}
+
+		.no {
+			background-color: #2e4d68;
+		}
+
+		.yes {
+			background-color: #733030;
+		}
+	}
 
 	&.magic {
 		box-shadow: 0 0 5px @color-magic;
@@ -162,10 +187,6 @@ form.search {
 
 	&.words-of-power {
 		box-shadow: 0 0 5px @color-words-of-power;
-	}
-
-	table {
-		margin: -11px;
 	}
 
 	td,
