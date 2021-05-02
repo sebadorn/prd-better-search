@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8 (2021-05-02)
+
+* Added short info with links for poison.
+
 ## 1.7 (2021-01-04)
 
 * Search syntax now supports logical AND operator (` && `).

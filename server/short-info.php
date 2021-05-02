@@ -44,6 +44,9 @@ function get_short_info( $item ) {
 	else if( $name === 'gelegenheitsangriffe' ) {
 		$info = output_gelegenheitsangriff();
 	}
+	else if( $name === 'gift' || $name === 'gifte' ) {
+		$info = output_gift();
+	}
 	else {
 		return '';
 	}
@@ -351,6 +354,15 @@ function output_gelegenheitsangriff() {
 		</tr>
 	</tfoot>
 </table>
+	';
+}
+
+
+function output_gift() {
+	return '
+<p>Links:</p>
+<div><a href="https://paizo.com/community/blog/v5748dyo5lc12?I-Drank-What-An-FAQ-on-Poison">I Drank What? An FAQ on Poison</a></div>
+<div><a href="https://paizo.com/community/blog/v5748dyo5lc12?I-Drank-What-An-FAQ-on-Poison#34">Onset time and secondary effect – I Drank What? An FAQ on Poison</a></div>
 	';
 }
 
