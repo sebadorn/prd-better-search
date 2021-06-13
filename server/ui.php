@@ -80,10 +80,10 @@ function ui_build_en_term( $term ) {
 		return '';
 	}
 
-	$ddg = 'https://duckduckgo.com/?q=site%3Ad20pfsrd.com+';
-	$ddg .= urlencode( $term );
+	$aon = 'https://www.aonprd.com/Search.aspx?Filter=111111111111111111&AllTerms=True&OneLine=True&ExcludeAPModule=False&PFSLegalOnly=False&Query=';
+	$aon .= urlencode( '"' . str_replace( '"', '', $term ) . '"' );
 
-	$link = '<a href="' . $ddg . '" rel="noreferrer">';
+	$link = '<a href="' . $aon . '" rel="noreferrer">';
 	$link .= htmlspecialchars( $term );
 	$link .= '</a>';
 

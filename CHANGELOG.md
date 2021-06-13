@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.9 (2021-06-13)
+
+* Changed outgoing search links for english terms from d20pfsrd.com to aonprd.com.
+
 ## 1.8 (2021-05-02)
 
 * Added short info with links for poison.
