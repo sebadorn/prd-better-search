@@ -129,4 +129,4 @@ Then upload everything the application needs to your server. The final structure
 * bash (or MinGW on Windows)
 * LESS
 * NodeJS >= 10
-* PHP >= 5.4
+* PHP >= 7

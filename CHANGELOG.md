@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10 (2022-11-05)
+
+* Compatible to PHP 8.
+
 ## 1.9 (2021-06-13)
 
 * Changed outgoing search links for english terms from d20pfsrd.com to aonprd.com.

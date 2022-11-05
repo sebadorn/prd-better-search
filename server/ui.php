@@ -158,19 +158,19 @@ function ui_build_listitem( $class, $i, $item ) {
 		$out .= '<div class="type"><span>Typ:</span> ' . $type;
 
 		if( is_array( $item->type_sub ) ) {
-			$out .= ' (' . implode( $item->type_sub, ', ' ) . ')';
+			$out .= ' (' . implode( ', ', $item->type_sub ) . ')';
 		}
 
 		$out .= '</div>';
 	}
 
 	if( is_array( $item->requirements ) ) {
-		$requirements = '<em>' . implode( $item->requirements, '</em>, <em>' ) . '</em>';
+		$requirements = '<em>' . implode( '</em>, <em>', $item->requirements ) . '</em>';
 		$out .= '<div class="req"><span>Voraussetzung:</span> ' . $requirements . '</div>';
 	}
 
 	if( is_array( $item->slot ) && $item->slot[0] !== '-' ) {
-		$slot = implode( $item->slot, ', ' );
+		$slot = implode( ', ', $item->slot );
 		$out .= '<div class="slot"><span>Platz:</span> ' . $slot . '</div>';
 	}
 
@@ -178,11 +178,11 @@ function ui_build_listitem( $class, $i, $item ) {
 		$out .= '<div class="school"><span>Schule:</span> ' . $item->school;
 
 		if( is_array( $item->school_sub ) ) {
-			$out .= ' (' . implode( $item->school_sub, ', ' ) . ')';
+			$out .= ' (' . implode( ', ', $item->school_sub ) . ')';
 		}
 
 		if( is_array( $item->category ) ) {
-			$out .= ' [' . implode( $item->category, ', ' ) . ']';
+			$out .= ' [' . implode( ', ', $item->category ) . ']';
 		}
 
 		$out .= '</div>';
@@ -190,7 +190,7 @@ function ui_build_listitem( $class, $i, $item ) {
 
 	if( $item->source === 'rules' ) {
 		if( is_array( $item->category ) ) {
-			$out .= '<div class="category"><span>Kategorie:</span> ' . implode( $item->category, ', ' ) . '</div>';
+			$out .= '<div class="category"><span>Kategorie:</span> ' . implode( ', ', $item->category ) . '</div>';
 		}
 	}
 

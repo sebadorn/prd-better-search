@@ -181,7 +181,7 @@ function check_mod_req( $value, $item ) {
 		'zäh',
 		'zs'
 	];
-	$regex = '/^(' . implode( $options, '|' ) . ')[ ]?([<>][=]?)[ ]?[+]?([0-9]+)[+]?$/';
+	$regex = '/^(' . implode( '|', $options ) . ')[ ]?([<>][=]?)[ ]?[+]?([0-9]+)[+]?$/';
 
 	$matches = NULL;
 
@@ -331,7 +331,7 @@ function get_search_mod( $search ) {
 		}
 
 		$mod = strtoupper( trim( $parts[0] ) );
-		$value = trim( implode( array_slice( $parts, 1 ), ':' ) );
+		$value = trim( implode( ':', array_slice( $parts, 1 ) ) );
 
 		if( $mod === 'BUCH' || $mod === 'BOOK' ) {
 			$mod = 'BUCH';
