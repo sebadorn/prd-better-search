@@ -83,7 +83,7 @@ function check_mod( $mod, $item, &$results ) {
  * @return string|null
  */
 function check_mod_book( $value, $item ) {
-	if( $item->book ) {
+	if( isset( $item->book ) ) {
 		$book = strtolower( $item->book );
 
 		if( strcmp( $book, $value ) === 0 ) {
@@ -105,7 +105,7 @@ function check_mod_book( $value, $item ) {
  * @return string|null
  */
 function check_mod_cr( $value, $item ) {
-	if( $item->cr && $item->cr === $value ) {
+	if( isset( $item->cr ) && $item->cr === $value ) {
 		return 'title_perfect';
 	}
 
@@ -120,7 +120,7 @@ function check_mod_cr( $value, $item ) {
  * @return string|null
  */
 function check_mod_school( $value, $item ) {
-	if( $item->school ) {
+	if( isset( $item->school ) ) {
 		$school = strtolower( $item->school );
 
 		if( strcmp( $school, $value ) === 0 ) {
@@ -131,7 +131,7 @@ function check_mod_school( $value, $item ) {
 		}
 	}
 
-	if( is_array( $item->school_sub ) ) {
+	if( isset( $item->school_sub ) && is_array( $item->school_sub ) ) {
 		foreach( $item->school_sub as $i => $subschool ) {
 			$subschool = strtolower( $subschool );
 
@@ -155,7 +155,7 @@ function check_mod_school( $value, $item ) {
  * @return string|null
  */
 function check_mod_req( $value, $item ) {
-	if( !is_array( $item->requirements ) ) {
+	if( !isset( $item->requirements ) || !is_array( $item->requirements ) ) {
 		return NULL;
 	}
 
@@ -231,7 +231,7 @@ function check_mod_req( $value, $item ) {
  * @return string|null
  */
 function check_mod_type( $value, $item ) {
-	if( $item->type ) {
+	if( isset( $item->type ) ) {
 		$type = strtolower( $item->type );
 
 		if( strcmp( $type, $value ) === 0 ) {
@@ -242,7 +242,7 @@ function check_mod_type( $value, $item ) {
 		}
 	}
 
-	if( is_array( $item->type_sub ) ) {
+	if( isset( $item->type_sub ) && is_array( $item->type_sub ) ) {
 		foreach( $item->type_sub as $i => $subtype ) {
 			$subtype = strtolower( $subtype );
 
@@ -281,11 +281,11 @@ function check_name( $search, $item, &$results ) {
 		array_push( $results['title_contains'], $item );
 		$added++;
 	}
-	else if( $item->desc && stripos( $item->desc, $search ) !== FALSE ) {
+	else if( isset( $item->desc ) && stripos( $item->desc, $search ) !== FALSE ) {
 		array_push( $results['desc'], $item );
 		$added++;
 	}
-	else if( is_array( $item->keywords ) ) {
+	else if( isset( $item->keywords ) && is_array( $item->keywords ) ) {
 		foreach( $item->keywords as $i => $keyword ) {
 			if( stripos( $keyword, $search ) !== FALSE ) {
 				array_push( $results['keywords'], $item );

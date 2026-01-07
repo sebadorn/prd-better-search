@@ -95,11 +95,14 @@ if(
  * @return number
  */
 function result_cmp( $a, $b ) {
-	if( $a->book !== $b->book ) {
-		if( $a->book === 'Grundregelwerk' ) {
+	$a_book = isset( $a->book ) ? $a->book : NULL;
+	$b_book = isset( $b->book ) ? $b->book : NULL;
+
+	if( $a_book !== $b_book ) {
+		if( $a_book === 'Grundregelwerk' ) {
 			return -1;
 		}
-		else if( $b->book === 'Grundregelwerk' ) {
+		else if( $b_book === 'Grundregelwerk' ) {
 			return 1;
 		}
 	}
@@ -273,7 +276,7 @@ function get_translation_suggestions() {
 
 	$key = strtolower( $search );
 
-	if( is_array( $translations->$key ) ) {
+	if( isset( $translations->$key ) && is_array( $translations->$key ) ) {
 		return $translations->$key;
 	}
 

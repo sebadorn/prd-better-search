@@ -139,7 +139,7 @@ function ui_build_filter_list() {
 function ui_build_listitem( $class, $i, $item ) {
 	$link = 'http://prd.5footstep.de/Permalink?page_id=' . $item->id;
 
-	if( $item->url ) {
+	if( isset( $item->url ) ) {
 		$link = 'http://prd.5footstep.de/' . $item->url;
 	}
 
@@ -149,52 +149,52 @@ function ui_build_listitem( $class, $i, $item ) {
 	$out .= ui_text_source( $item );
 	$out .= '</header>';
 
-	if( $item->book ) {
+	if( isset( $item->book ) ) {
 		$out .= '<div class="book">' . $item->book . '</div>';
 	}
 
-	if( $item->type ) {
+	if( isset( $item->type ) ) {
 		$type = str_replace( ',', ', ', $item->type );
 		$out .= '<div class="type"><span>Typ:</span> ' . $type;
 
-		if( is_array( $item->type_sub ) ) {
+		if( isset( $item->type_sub ) && is_array( $item->type_sub ) ) {
 			$out .= ' (' . implode( ', ', $item->type_sub ) . ')';
 		}
 
 		$out .= '</div>';
 	}
 
-	if( is_array( $item->requirements ) ) {
+	if( isset( $item->requirements ) && is_array( $item->requirements ) ) {
 		$requirements = '<em>' . implode( '</em>, <em>', $item->requirements ) . '</em>';
 		$out .= '<div class="req"><span>Voraussetzung:</span> ' . $requirements . '</div>';
 	}
 
-	if( is_array( $item->slot ) && $item->slot[0] !== '-' ) {
+	if( isset( $item->slot ) && is_array( $item->slot ) && $item->slot[0] !== '-' ) {
 		$slot = implode( ', ', $item->slot );
 		$out .= '<div class="slot"><span>Platz:</span> ' . $slot . '</div>';
 	}
 
-	if( $item->school ) {
+	if( isset( $item->school ) ) {
 		$out .= '<div class="school"><span>Schule:</span> ' . $item->school;
 
-		if( is_array( $item->school_sub ) ) {
+		if( isset( $item->school_sub ) && is_array( $item->school_sub ) ) {
 			$out .= ' (' . implode( ', ', $item->school_sub ) . ')';
 		}
 
-		if( is_array( $item->category ) ) {
+		if( isset( $item->category ) && is_array( $item->category ) ) {
 			$out .= ' [' . implode( ', ', $item->category ) . ']';
 		}
 
 		$out .= '</div>';
 	}
 
-	if( $item->source === 'rules' ) {
-		if( is_array( $item->category ) ) {
+	if( isset( $item->source ) && $item->source === 'rules' ) {
+		if( isset( $item->category ) && is_array( $item->category ) ) {
 			$out .= '<div class="category"><span>Kategorie:</span> ' . implode( ', ', $item->category ) . '</div>';
 		}
 	}
 
-	if( $item->desc ) {
+	if( isset( $item->desc ) ) {
 		$desc = trim( $item->desc );
 
 		if( strlen( $desc ) > 249 ) {
