@@ -3,6 +3,7 @@
 ## 1.11 (2026-01-07)
 
 * Add notes to talents about <a href="https://michaeliantorno.com/feat-taxes-in-pathfinder/">Feat Tax</a> adjustments and alternatives.
+	* To see all notes use as search filter: `typ:feat tax`
 * Combining normal text in a search with logical operators now works, e.g. `typ:kampf && req:ge>=13 && verbessert`.
 * Search syntax now supports `=` to compare numbers for exact matches.
 

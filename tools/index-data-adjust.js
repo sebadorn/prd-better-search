@@ -138,7 +138,7 @@ const addTalentData = ( item, entry ) => {
 			r = r.trim();
 
 			if( r.endsWith( '.' ) ) {
-				r = r.substr( 0, r.length - 1 );
+				r = r.substring( 0, r.length - 1 );
 			}
 
 			return r;
