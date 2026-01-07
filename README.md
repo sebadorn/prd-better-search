@@ -93,7 +93,9 @@ jq -c . < translations.json > translations.min.json
 
 If you made changes to `screen.less` recompile it with:
 
-    lessc --clean-css server/screen.less > server/screen.css
+```sh
+lessc --clean-css server/screen.less > server/screen.css
+```
 
 
 ### On the server

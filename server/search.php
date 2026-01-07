@@ -33,7 +33,7 @@ $has_custom_data = [
 	'magic' => false,
 	'monsters' => false,
 	'rules' => true,
-	'talents' => false,
+	'talents' => true,
 	'traits' => false,
 	'words-of-power' => false
 ];
@@ -172,7 +172,8 @@ function get_search_results() {
 		'title_contains' => [],
 		'fuzzy' => [],
 		'desc' => [],
-		'keywords' => []
+		'keywords' => [],
+		'num_results' => 0
 	];
 
 	$no_search_term = is_null( $search );

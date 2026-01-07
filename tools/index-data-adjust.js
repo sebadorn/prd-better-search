@@ -30,7 +30,7 @@ const writeFileJSON = ( file, content ) => {
 const getBaseData = entry => {
 	const item = {
 		id: entry.ID,
-		name: String( entry.Name ).trim()
+		name: String( entry.Name ).trim(),
 	};
 
 	item.name = item.name.replace( regexNameLink, '$1' );
@@ -144,6 +144,68 @@ const addTalentData = ( item, entry ) => {
 			return r;
 		} );
 	}
+
+	switch( item.name.toLowerCase() ) {
+		case 'ausweichen':
+			item.featTax = '<p><em>Kombiniert mit <a href="./?s=Beweglichkeit&f=talents">Beweglichkeit</a>.</em></p><p>Ausweichbonus +1 auf RK. Weitere +3 (also ingesamt +4) gegen Gelegenheitsangriffe, die dadurch ausgelöst wurden, dass sich durch ein bedrohtes Feld bewegt wurde.</p>';
+			break;
+
+		case 'beweglichkeit':
+			item.featTax = '<p><em>Kombiniert mit <a href="./?s=Ausweichen&f=talents">Ausweichen</a>.</em></p><p>Ausweichbonus +1 auf RK. Weitere +3 (also ingesamt +4) gegen Gelegenheitsangriffe, die dadurch ausgelöst wurden, dass sich durch ein bedrohtes Feld bewegt wurde.</p>';
+			break;
+
+		case 'defensive kampfweise':
+		case 'heftiger angriff':
+		case 'tödliche zielgenauigkeit':
+			item.featTax = '<p>Entfällt. Generell eine Option für jeden Charakter mit mind. +1 GAB.</p>';
+			break;
+
+		case 'flinke manöver':
+			item.featTax = '<p>Entfällt. Ein Charakter mit einer leichten Waffe oder Rapier kann generell sein GE anstatt ST für das Kampfmanöver verwenden.</p>';
+			break;
+
+		case 'kernschuss':
+			item.featTax = '<p>Entfällt. Talente mit Kernschuss als Voraussetzung erfordern stattdessen <a href="./?s=Präzisionsschuss&f=talents">Präzisionsschuss.</p>';
+			break;
+
+		case 'mächtiger kampf mit zwei waffen':
+			item.featTax = '<p><strong style="font-weight: 600;">Neue Voraussetzung:</strong> <em>GE 17, Kampf mit zwei Waffen, GAB +6</em></p><p>Zusätzlich zum Standard-Bonusangriff, den du mit einer Waffe in der Nebenhand erhältst, führst du einen 2. Angriff damit aus (Malus von -5).</p><p>Sobald dein GAB +11 erreicht, erhältst du einen 3. Angriff mit der Waffe in der Nebenhand (Malus von -10).</p>';
+			break;
+
+		case 'meisterhafte waffenvielseitigkeit':
+		case 'waffenvielseitigkeit':
+			item.featTax = '<p>Entfällt. Kampftalente wie <a href="./?s=Waffenfokus&f=talents">Waffenfokus</a> betreffen nun generell Waffengruppen anstatt nur bestimmte Waffen.</p>';
+			break;
+
+		case 'Verbesserter Ansturm':
+		case 'Verbessertes Gegenstand zerschmettern':
+		case 'Verbessertes Überrennen':
+		case 'Verbessertes Zerren':
+			item.featTax = '<p>Ersetzt mit <a href="./?s=Kraftvolle%20Manöver&f=talents">Kraftvolle Manöver</a>, welches dieses Talent beinhaltet.</p>';
+			break;
+
+		case 'verbessertes entreißen':
+		case 'verbessertes entwaffnen':
+		case 'verbesserte finte':
+		case 'verbesserter schmutziger trick':
+		case 'verbessertes versetzen': 
+		case 'verbessertes zu-fall-bringen':
+			item.featTax = '<p>Ersetzt mit <a href="./?s=Geschickte%20Manöver&f=talents">Geschickte Manöver</a>, welches dieses Talent beinhaltet.</p>';
+			break;
+
+		case 'verbesserter kampf mit zwei waffen':
+			item.featTax = '<p>Entfällt. Kombiniert mit <a href="./?s=Mächtiger%20Kampf%20mit%20zwei%20Waffen&f=talents">Mächtiger Kampf mit zwei Waffen</a>.</p>';
+			break;
+
+		case 'waffenfinesse':
+			item.featTax = '<p>Entfällt. Mit allen leichten Waffen und dem Rapier kann generell entweder GE oder ST für den Angriffswurf verwendet werden.</p>';
+			break;
+
+		case 'waffenfokus':
+		case 'waffenspezialisierung':
+			item.featTax = '<p>' + item.desc + '.</p><p>Gilt für ganze Waffengruppe anstatt nur bestimmte Waffen.</p>';
+			break;
+	}
 };
 
 
@@ -178,7 +240,7 @@ const queue = [
 	{ file: 'rules.json', handler: addRuleData },
 	{ file: 'talents.json', handler: addTalentData },
 	{ file: 'traits.json', handler: addTraitData },
-	{ file: 'words-of-power.json', handler: addWOPData }
+	{ file: 'words-of-power.json', handler: addWOPData },
 ];
 
 const ruleDuplicates = [
@@ -186,7 +248,7 @@ const ruleDuplicates = [
 	'Monster',
 	'Talente',
 	'Wesenszüge',
-	'Zauber'
+	'Zauber',
 ];
 
 const books = [];

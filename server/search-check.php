@@ -291,6 +291,13 @@ function check_mod_type( $value, $item ) {
 		else if( strpos( $type, $value ) !== FALSE ) {
 			return 'title_contains';
 		}
+
+		// Extra check for "Feat Tax" type.
+		$value = str_replace( ' ', '', $value );
+
+		if( $value === 'feattax' && isset( $item->featTax ) ) {
+			return 'title_perfect';
+		}
 	}
 
 	if( isset( $item->type_sub ) && is_array( $item->type_sub ) ) {

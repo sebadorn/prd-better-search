@@ -14,6 +14,8 @@
 
 a {
 	color: #FFFFFF;
+	text-decoration-color: rgba(255, 255, 255, 0.4);
+	text-decoration-thickness: 2px;
 
 	&:hover {
 		text-decoration: none;
@@ -271,12 +273,14 @@ form.search {
 
 	.book,
 	.category,
+	.feat-tax,
+	.feat-tax .label,
 	.req,
 	.school,
 	.slot,
 	.type {
 		border-bottom: 1px solid #505050;
-		color: #A0A0A0;
+		color: #a0a0a0;
 		font-size: 14px;
 		margin: 0 -10px;
 		padding: 2px 10px;
@@ -290,6 +294,37 @@ form.search {
 		font-size: 14px;
 		line-height: 21px;
 		padding-top: 5px;
+	}
+
+	.desc-old {
+		color: #808080;
+		padding-bottom: 5px;
+	}
+
+	.feat-tax {
+		background-color: mix(#303030, @color-talents, 50%);
+		border-bottom: 0;
+		color: #ffffff;
+		line-height: 21px;
+		margin-bottom: -5px;
+		padding: 5px 10px;
+
+		.label {
+			border-bottom: 0;
+			color: #e0e0e0;
+			display: block;
+			font-weight: 700;
+			padding: 0 10px 3px;
+			text-transform: uppercase;
+		}
+
+		p {
+			margin-bottom: 3px;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
 	}
 }
 
@@ -313,7 +348,7 @@ form.search {
 		width: 1em;
 
 		&:hover {
-			background-color: #F0F0F0;
+			background-color: #f0f0f0;
 			color: #303030;
 		}
 	}

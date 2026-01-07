@@ -42,7 +42,7 @@ if( $search ) {
 
 <form class="search" method="GET" action="index.php">
 	<div class="line">
-		<input name="s" placeholder="Suche …" value="<?php echo htmlspecialchars( $_GET['s'] ) ?>" />
+		<input name="s" placeholder="Suche …" value="<?php echo isset( $_GET['s'] ) ? htmlspecialchars( $_GET['s'] ) : '' ?>" />
 		<button type="submit">&gt;</button>
 	</div>
 	<select name="f"><?php echo ui_build_filter_list() ?></select>

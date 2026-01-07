@@ -113,6 +113,8 @@ function ui_build_filter_list() {
 	];
 	$out = '';
 
+	$current_f = isset( $_GET['f'] ) ? $_GET['f'] : NULL;
+
 	foreach( $options as $key => $value ) {
 		if( $value === '-' ) {
 			$text = '— kein Filter —';
@@ -121,7 +123,7 @@ function ui_build_filter_list() {
 			$text = get_translation( $value );
 		}
 
-		$check = ( $_GET['f'] === $value ) ? ' selected' : '';
+		$check = ( $current_f === $value ) ? ' selected' : '';
 		$out .= "<option value=\"{$value}\"{$check}>{$text}</option>";
 	}
 
@@ -140,7 +142,12 @@ function ui_build_listitem( $class, $i, $item ) {
 	$link = 'http://prd.5footstep.de/';
 
 	if( isset( $item->url ) ) {
-		$link .= $item->url;
+		if( stripos( $item->url, 'http' ) === 0 ) {
+			$link = $item->url;
+		}
+		else {
+			$link .= $item->url;
+		}
 	}
 	else {
 		$link .= 'Permalink?page_id=' . $item->id;
@@ -204,7 +211,17 @@ function ui_build_listitem( $class, $i, $item ) {
 			$desc = mb_substr( $desc, 0, 249, 'UTF-8' ) . '…';
 		}
 
-		$out .= '<div class="desc">' . $desc . '</div>';
+		$classes = 'desc';
+
+		if( isset( $item->featTax ) ) {
+			$classes .= ' desc-old';
+		}
+
+		$out .= '<div class="' . $classes . '">' . $desc . '</div>';
+	}
+
+	if( isset( $item->featTax ) ) {
+		$out .= '<div class="feat-tax"><div class="label">Feat Tax-Version</div>' . $item->featTax . '</div>';
 	}
 
 	return $out . '</li>';

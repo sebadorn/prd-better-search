@@ -4145,7 +4145,7 @@
 	"greater trip": [
 		"Mächtiges Zu-Fall-bringen"
 	],
-	"greater two-wepaon fighting": [
+	"greater two-weapon fighting": [
 		"Mächtiger Kampf mit zwei Waffen"
 	],
 	"greater vital strike": [
@@ -4748,8 +4748,14 @@
 	"improved critical": [
 		"Verbesserter Kritischer Treffer"
 	],
+	"improved dirty trick": [
+		"Verbesserter Schmutziger Trick"
+	],
 	"improved disarm": [
 		"Verbessertes Entwaffnen"
+	],
+	"improved drag": [
+		"Verbessertes Zerren"
 	],
 	"improved energy resistance": [
 		"Verbesserte Energieresistenz"
@@ -4796,6 +4802,9 @@
 	"improved reaction": [
 		"Verbesserte Reaktion"
 	],
+	"improved reposition": [
+		"Verbessertes Versetzen"
+	],
 	"improved rock catching": [
 		"Verbessertes Felsen fangen"
 	],
@@ -4807,6 +4816,9 @@
 	],
 	"improved slick": [
 		"Verbesserte Schlüpfrigkeit"
+	],
+	"improved steal": [
+		"Verbessertes Entreißen"
 	],
 	"improved sunder": [
 		"Verbessertes Gegenstand zerschmettern"
@@ -5678,6 +5690,12 @@
 	],
 	"mark of justice": [
 		"Mal der Gerechtigkeit"
+	],
+	"martial mastery": [
+		"Meisterhafte Waffenvielseitigkeit"
+	],
+	"martial versality": [
+		"Waffenvielseitigkeit"
 	],
 	"martial weapon": [
 		"Kriegswaffe"
@@ -7124,6 +7142,9 @@
 	],
 	"repose": [
 		"Ruhe"
+	],
+	"reposition": [
+		"Versetzen"
 	],
 	"reptilian": [
 		"Reptil"
