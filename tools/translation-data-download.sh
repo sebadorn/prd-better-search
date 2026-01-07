@@ -2,7 +2,7 @@
 
 cd $(dirname "$0")
 
-OUT_DIR='../translation-data'
+OUT_DIR='../server/translation-data'
 
 if [ -d "$OUT_DIR" ]; then
 	rm -rf "$OUT_DIR"

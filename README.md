@@ -73,21 +73,21 @@ To show contents of a certain book, use `Buch:`. Examples:
 
 ### Look-up data
 
-Download the data with `./tools/index-data-download.sh`. This will download a bunch of JSON files to a directory called `./index-data/export/` and will total approximately 10 MB.
+Download the data with `./tools/index-data-download.sh`. This will download a bunch of JSON files to a directory called `./server/index-data/export/` and will total approximately 10 MB.
 
-In the next step call `node ./tools/index-data-adjust.js` which will create new JSON files in `./index-data/`.
+In the next step call `node ./tools/index-data-adjust.js` which will create new JSON files in `./server/index-data/`.
 
 
 ### Translations
 
 The same process for the translations:
 
-```
+```sh
 ./tools/translation-data-download.sh
 node ./tools/translation-data-adjust.js
 ```
 
-Additional translations can be added in `translation-data/custom.json` beforehand.
+Additional translations can be added in `server/translation-data/custom.json` beforehand.
 
 
 ### CSS
@@ -129,4 +129,4 @@ Then upload everything the application needs to your server. The final structure
 * bash (or MinGW on Windows)
 * LESS
 * NodeJS >= 10
-* PHP >= 7
+* PHP >= 7 with "mbstring" extension

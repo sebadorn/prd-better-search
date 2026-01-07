@@ -2,7 +2,7 @@
 
 cd $(dirname "$0")
 
-OUT_DIR='../index-data/export'
+OUT_DIR='../server/index-data/export'
 
 if [ -d "$OUT_DIR" ]; then
 	rm -rf "$OUT_DIR"

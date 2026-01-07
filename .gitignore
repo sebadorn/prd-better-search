@@ -1,6 +1,7 @@
 # Directories
-/index-data
-/translation-data/*.html
+/server/index-data
+/server/translation-data/*.html
 
 # Files
+.DS_Store
 *.sublime-*

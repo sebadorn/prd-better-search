@@ -3,7 +3,7 @@
 const fs = require( 'fs' );
 const path = require( 'path' );
 
-const DATA_PATH = path.join( __dirname, '..', 'index-data' );
+const DATA_PATH = path.join( __dirname, '..', 'server', 'index-data' );
 const regexNameLink = /.+['"]>(.+)<\/a>$/;
 const regexDescClean = /^(&lt;sup&gt;|\^\^)[A-Z]+(&lt;\/sup&gt;||\^\^)/;
 const regexReqClean = /\^\^[A-Z0-9 ]+\^\^/g;

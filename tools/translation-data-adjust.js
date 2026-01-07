@@ -3,7 +3,7 @@
 const fs = require( 'fs' );
 const path = require( 'path' );
 
-const DATA_PATH = path.join( __dirname, '..', 'translation-data' );
+const DATA_PATH = path.join( __dirname, '..', 'server', 'translation-data' );
 
 
 const getFileJSON = file => {
