@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11 (2026-01-07)
+
+* Combining normal text in a search with logical operators now works, e.g. `typ:kampf && req:ge>=13 && verbessert`.
+
 ## 1.10 (2022-11-05)
 
 * Compatible to PHP 8.

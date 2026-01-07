@@ -16,7 +16,12 @@ function check_add_item( $search, $mod, $item, &$results ) {
 		$added += check_mod( $mod, $item, $results );
 	}
 	else {
-		$added += check_name( $search, $item, $results );
+		$result_key = check_mod_text( $search, $item );
+
+		if( $result_key ) {
+			array_push( $results[$result_key], $item );
+			$added++;
+		}
 	}
 
 	return $added;
@@ -53,6 +58,9 @@ function check_mod( $mod, $item, &$results ) {
 		}
 		else if( $key === 'SCHULE' ) {
 			$result_key = check_mod_school( $value, $item );
+		}
+		else if( $key === 'TEXT' ) {
+			$result_key = check_mod_text( $value, $item );
 		}
 		else if( $key === 'TYP' ) {
 			$result_key = check_mod_type( $value, $item );
@@ -230,6 +238,48 @@ function check_mod_req( $value, $item ) {
  * @param  object $item
  * @return string|null
  */
+function check_mod_text( $value, $item ) {
+	$needles = array( ',', ';', '.', ':', '-' );
+	$name = strtolower( $item->name );
+	$name = str_replace( $needles, '', $name );
+
+	if( strcmp( $name, $value ) === 0 ) {
+		return 'title_perfect';
+	}
+
+	if( strpos( $name, $value ) !== FALSE ) {
+		return 'title_contains';
+	}
+
+	if( isset( $item->desc ) && stripos( $item->desc, $value ) !== FALSE ) {
+		return 'desc';
+	}
+
+	if( isset( $item->keywords ) && is_array( $item->keywords ) ) {
+		foreach( $item->keywords as $i => $keyword ) {
+			if( stripos( $keyword, $value ) !== FALSE ) {
+				return 'keywords';
+			}
+		}
+	}
+
+	// Fuzzy search.
+	similar_text( $name, $value, $percent );
+
+	if( $percent >= FUZZY_MIN ) {
+		return 'fuzzy';
+	}
+
+	return NULL;
+}
+
+
+/**
+ *
+ * @param  string $value
+ * @param  object $item
+ * @return string|null
+ */
 function check_mod_type( $value, $item ) {
 	if( isset( $item->type ) ) {
 		$type = strtolower( $item->type );
@@ -262,57 +312,6 @@ function check_mod_type( $value, $item ) {
 /**
  *
  * @param  string $search
- * @param  object $item
- * @param  array  &$results
- * @return number
- */
-function check_name( $search, $item, &$results ) {
-	$added = 0;
-
-	$name = strtolower( $item->name );
-	$needles = array( ',', ';', '.', ':', '-' );
-	$name = str_replace( $needles, '', $name );
-
-	if( strcmp( $name, $search ) === 0 ) {
-		array_push( $results['title_perfect'], $item );
-		$added++;
-	}
-	else if( strpos( $name, $search ) !== FALSE ) {
-		array_push( $results['title_contains'], $item );
-		$added++;
-	}
-	else if( isset( $item->desc ) && stripos( $item->desc, $search ) !== FALSE ) {
-		array_push( $results['desc'], $item );
-		$added++;
-	}
-	else if( isset( $item->keywords ) && is_array( $item->keywords ) ) {
-		foreach( $item->keywords as $i => $keyword ) {
-			if( stripos( $keyword, $search ) !== FALSE ) {
-				array_push( $results['keywords'], $item );
-				$added++;
-
-				break;
-			}
-		}
-	}
-
-	// Fuzzy search.
-	if( $added === 0 ) {
-		similar_text( $name, $search, $percent );
-
-		if( $percent >= FUZZY_MIN ) {
-			array_push( $results['fuzzy'], $item );
-			$added++;
-		}
-	}
-
-	return $added;
-}
-
-
-/**
- *
- * @param  string $search
  * @return array|null
  */
 function get_search_mod( $search ) {
@@ -327,7 +326,14 @@ function get_search_mod( $search ) {
 		$parts = explode( ':', $andPart );
 
 		if( count( $parts ) < 2 ) {
-			return NULL;
+			$mod = 'TEXT';
+			$value = trim( $parts[0] );
+
+			if( strlen( $value ) > 0 ) {
+				array_push( $result, $mod, $value );
+			}
+
+			continue;
 		}
 
 		$mod = strtoupper( trim( $parts[0] ) );

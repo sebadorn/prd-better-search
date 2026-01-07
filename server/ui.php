@@ -137,10 +137,13 @@ function ui_build_filter_list() {
  * @return string
  */
 function ui_build_listitem( $class, $i, $item ) {
-	$link = 'http://prd.5footstep.de/Permalink?page_id=' . $item->id;
+	$link = 'http://prd.5footstep.de/';
 
 	if( isset( $item->url ) ) {
-		$link = 'http://prd.5footstep.de/' . $item->url;
+		$link .= $item->url;
+	}
+	else {
+		$link .= 'Permalink?page_id=' . $item->id;
 	}
 
 	$out = "<li class=\"result {$class} {$item->source}\">";

@@ -5,7 +5,7 @@ define( 'NUM_PER_PAGE', 100 );
 define( 'NUM_MAX_RESULTS', 2000 );
 define( 'TERM_MIN_LENGTH', 2 );
 define( 'TERM_MAX_LENGTH', 1000 );
-define( 'VERSION', '1.10' );
+define( 'VERSION', '1.11' );
 
 if( isset( $_GET['page'] ) && $_GET['page'] >= 0 ) {
 	define( 'CURRENT_PAGE', intval( $_GET['page'] ) );
@@ -107,10 +107,13 @@ function result_cmp( $a, $b ) {
 		}
 	}
 
-	if( $a->id > $b->id ) {
+	$a_id = isset( $a->id ) ? $a->id : NULL;
+	$b_id = isset( $b->id ) ? $b->id : NULL;
+
+	if( $a_id > $b_id ) {
 		return 1;
 	}
-	else if( $a->id < $b->id ) {
+	else if( $a_id < $b_id ) {
 		return -1;
 	}
 
@@ -209,7 +212,7 @@ function get_search_results() {
 		}
 
 		foreach( $contents as $i => $item ) {
-			if( $filter_book && $item->book !== $filter_book ) {
+			if( $filter_book && ( !isset( $item->book ) || $item->book !== $filter_book ) ) {
 				continue;
 			}
 
