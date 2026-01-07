@@ -62,7 +62,7 @@ function ui_build_book_list() {
 	$out = '<option value="-">— kein Buch —</option>';
 
 	foreach( $books as $i => $book ) {
-		$check = ( $_GET['b'] === $book ) ? ' selected' : '';
+		$check = ( isset( $_GET['b'] ) && $_GET['b'] === $book ) ? ' selected' : '';
 		$out .= "<option value=\"{$book}\"{$check}>{$book}</option>";
 	}
 

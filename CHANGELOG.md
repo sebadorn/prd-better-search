@@ -3,6 +3,7 @@
 ## 1.11 (2026-01-07)
 
 * Combining normal text in a search with logical operators now works, e.g. `typ:kampf && req:ge>=13 && verbessert`.
+* Search syntax now supports `=` to compare numbers for exact matches.
 
 ## 1.10 (2022-11-05)
 

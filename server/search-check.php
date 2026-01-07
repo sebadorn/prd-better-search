@@ -189,7 +189,7 @@ function check_mod_req( $value, $item ) {
 		'zäh',
 		'zs'
 	];
-	$regex = '/^(' . implode( '|', $options ) . ')[ ]?([<>][=]?)[ ]?[+]?([0-9]+)[+]?$/';
+	$regex = '/^(' . implode( '|', $options ) . ')[ ]?([=<>][=]?)[ ]?[+]?([0-9]+)[+]?$/';
 
 	$matches = NULL;
 
@@ -208,7 +208,8 @@ function check_mod_req( $value, $item ) {
 					( $comp === '<' && $reqVal < $maxVal ) ||
 					( $comp === '>' && $reqVal > $maxVal ) ||
 					( $comp === '<=' && $reqVal <= $maxVal ) ||
-					( $comp === '>=' && $reqVal >= $maxVal )
+					( $comp === '>=' && $reqVal >= $maxVal ) ||
+					( ( $comp === '=' || $comp === '==' ) && $reqVal == $maxVal )
 				) {
 					return 'title_perfect';
 				}
