@@ -135,6 +135,7 @@ const addTalentData = ( item, entry ) => {
 			r = r.replace( regexReqGAB, 'GAB' );
 			r = r.replace( 'Zauberstufe ', 'ZS ' );
 			r = r.replace( regexReqBracket, '(' );
+			r = r.replaceAll( /\[\[#?/g, '' );
 			r = r.trim();
 
 			if( r.endsWith( '.' ) ) {
