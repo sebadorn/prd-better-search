@@ -80,14 +80,13 @@ In the next step call `node ./tools/index-data-adjust.js` which will create new 
 
 ### Translations
 
-The same process for the translations:
+Translations (de - en) are stored unminified in `server/translation-data/translations.json`.
+
+You can create a minified version `translations.min.json` with e.g.:
 
 ```sh
-./tools/translation-data-download.sh
-node ./tools/translation-data-adjust.js
+jq -c . < translations.json > translations.min.json
 ```
-
-Additional translations can be added in `server/translation-data/custom.json` beforehand.
 
 
 ### CSS
@@ -113,8 +112,7 @@ Then upload everything the application needs to your server. The final structure
       traits.json
       words-of-power.json
     translation-data/
-      custom.json
-      translations.json
+      translations.min.json
     index.php
     screen.css
     search-check.php

@@ -76,7 +76,7 @@ if(
 		}
 	}
 
-	$path = 'translation-data/translations.json';
+	$path = 'translation-data/translations.min.json';
 
 	if( file_exists( $path ) ) {
 		$handle = fopen( $path, 'r' );
