@@ -28,7 +28,7 @@ if( $search ) {
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?php echo $title ?></title>
-	<link rel="stylesheet" href="screen.css?_=5">
+	<link rel="stylesheet" href="screen.css?_=6">
 </head>
 <body>
 
@@ -43,7 +43,7 @@ if( $search ) {
 <form class="search" method="GET" action="index.php">
 	<div class="line">
 		<input name="s" placeholder="Suche …" value="<?php echo isset( $_GET['s'] ) ? htmlspecialchars( $_GET['s'] ) : '' ?>" />
-		<button type="submit">&gt;</button>
+		<button type="submit">⌕</button>
 	</div>
 	<select name="f"><?php echo ui_build_filter_list() ?></select>
 	<select name="b"><?php echo ui_build_book_list() ?></select>

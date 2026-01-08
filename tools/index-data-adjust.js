@@ -158,7 +158,7 @@ const addTalentData = ( item, entry ) => {
 		case 'defensive kampfweise':
 		case 'heftiger angriff':
 		case 'tödliche zielgenauigkeit':
-			item.featTax = '<p>Entfällt. Generell eine Option für jeden Charakter mit mind. +1 GAB.</p>';
+			item.featTax = '<p>Entfällt. Generell eine Option für jeden Charakter mit mind. GAB +1.</p>';
 			break;
 
 		case 'flinke manöver':
